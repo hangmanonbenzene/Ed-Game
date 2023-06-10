@@ -9,6 +9,8 @@ public class ChooseGate : MonoBehaviour
     [SerializeField] private GameObject[] buttons;
     [SerializeField] private GameObject slider;
 
+    private int selectedButton;
+
     [SerializeField] private GameObject logicField;
 
     public void setup(LogicField[] logicFields)
@@ -32,6 +34,7 @@ public class ChooseGate : MonoBehaviour
 
     private void onClickButton(int number)
     {
+        selectedButton = number;
         logicField.GetComponent<LogicFields>().setup(number);
         for (int i = 0; i < buttons.Length; i++)
         {
@@ -61,6 +64,10 @@ public class ChooseGate : MonoBehaviour
             {
                 buttons[i].GetComponent<Button>().interactable = false;
             }
+        }
+        if (selectedButton > value)
+        {
+            onClickButton(value);
         }
     }
 

@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +15,9 @@ public class ChoosePrompt : MonoBehaviour
     [SerializeField] private GameObject prompt;
 
     private int[] selectedButtons;
+    private bool[] selectedInputs;
     private int selectedType;
+    private GameObject initButton;
 
     public void setup()
     {
@@ -38,16 +39,15 @@ public class ChoosePrompt : MonoBehaviour
                 }
             }
         }
+
         selectedButtons = new int[4];
-        activateInput(null, 1, 0, 0, 0);
-        //activateGate(null, 0, null);
-        //activateOutput(null, 1, 0, null);
-        //onClickType(0);
+        selectedInputs = new bool[5];
     }
 
     public void activateInput(GameObject button, int typeNumber, int specificationOne, int specificationTwo, int specificationThree)
     {
         selectedType = 0;
+        initButton = button;
 
         string type = TypesOfInputs.getTypes()[typeNumber];
         setTypeInput(type);
@@ -57,12 +57,39 @@ public class ChoosePrompt : MonoBehaviour
         select(2, specificationTwo);
         select(3, specificationThree);
 
+        selectedButtons[0] = typeNumber;
+        selectedButtons[1] = specificationOne;
+        selectedButtons[2] = specificationTwo;
+        selectedButtons[3] = specificationThree;
+
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            for (int j = 0; j < buttons[i].Length; j++)
+            {
+                int row = i;
+                int number = j;
+                if (row == 0)
+                {
+                    buttons[row][j].GetComponent<Button>().onClick.RemoveAllListeners();
+                    buttons[row][j].GetComponent<Button>().onClick.AddListener(() => onClickType(number));
+                }
+                else
+                {
+                    buttons[row][j].GetComponent<Button>().onClick.RemoveAllListeners();
+                    buttons[row][j].GetComponent<Button>().onClick.AddListener(() => onClickSpecification(row, number));
+                }
+            }
+        }
+
         doneButton.GetComponent<Button>().onClick.RemoveAllListeners();
         doneButton.GetComponent<Button>().onClick.AddListener(onClickDoneInput);
+
+        prompt.SetActive(true);
     }
     public void activateGate(GameObject button, int typeNumber, int[] inputs)
     {
         selectedType = 1;
+        initButton = button;
 
         string type = TypesOfLogic.getTypes()[typeNumber];
         setTypeGate(type);
@@ -76,12 +103,45 @@ public class ChoosePrompt : MonoBehaviour
                 buttons[1][i].GetComponent<TypeButton>().select(false);
         }
 
+        selectedButtons[0] = typeNumber;
+        selectedInputs[0] = inputs.Contains(0);
+        selectedInputs[1] = inputs.Contains(1);
+        selectedInputs[2] = inputs.Contains(2);
+        selectedInputs[3] = inputs.Contains(3);
+        selectedInputs[4] = inputs.Contains(4);
+
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            for (int j = 0; j < buttons[i].Length; j++)
+            {
+                int row = i;
+                int number = j;
+                if (row == 0)
+                {
+                    buttons[row][j].GetComponent<Button>().onClick.RemoveAllListeners();
+                    buttons[row][j].GetComponent<Button>().onClick.AddListener(() => onClickType(number));
+                }
+                else if (row == 1)
+                {
+                    buttons[row][j].GetComponent<Button>().onClick.RemoveAllListeners();
+                    buttons[row][j].GetComponent<Button>().onClick.AddListener(() => onClickInput(1, number));
+                }
+                else
+                {
+                    buttons[row][j].GetComponent<Button>().onClick.RemoveAllListeners();
+                }
+            }
+        }
+
         doneButton.GetComponent<Button>().onClick.RemoveAllListeners();
         doneButton.GetComponent<Button>().onClick.AddListener(onClickDoneGate);
+
+        prompt.SetActive(true);
     }
     public void activateOutput(GameObject button, int typeNumber, int specification, int[] inputs)
     {
         selectedType = 2;
+        initButton = button;
 
         string type = TypesOfOutputs.getTypes()[typeNumber];
         setTypeOutput(type);
@@ -96,24 +156,74 @@ public class ChoosePrompt : MonoBehaviour
                 buttons[2][i].GetComponent<TypeButton>().select(false);
         }
 
+        selectedButtons[0] = typeNumber;
+        selectedButtons[1] = specification;
+        selectedInputs[0] = inputs.Contains(0);
+        selectedInputs[1] = inputs.Contains(1);
+        selectedInputs[2] = inputs.Contains(2);
+        selectedInputs[3] = inputs.Contains(3);
+        selectedInputs[4] = inputs.Contains(4);
+
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            for (int j = 0; j < buttons[i].Length; j++)
+            {
+                int row = i;
+                int number = j;
+                if (row == 0)
+                {
+                    buttons[row][j].GetComponent<Button>().onClick.RemoveAllListeners();
+                    buttons[row][j].GetComponent<Button>().onClick.AddListener(() => onClickType(number));
+                }
+                else if (row == 1)
+                {
+                    buttons[row][j].GetComponent<Button>().onClick.RemoveAllListeners();
+                    buttons[row][j].GetComponent<Button>().onClick.AddListener(() => onClickSpecification(row, number));
+                }
+                else if (row == 2)
+                {
+                    buttons[row][j].GetComponent<Button>().onClick.RemoveAllListeners();
+                    buttons[row][j].GetComponent<Button>().onClick.AddListener(() => onClickInput(2, number));
+                }
+                else
+                {
+                    buttons[row][j].GetComponent<Button>().onClick.RemoveAllListeners();
+                }
+            }
+        }
+
         doneButton.GetComponent<Button>().onClick.RemoveAllListeners();
         doneButton.GetComponent<Button>().onClick.AddListener(onClickDoneOutput);
+
+        prompt.SetActive(true);
     }
 
     public void onClickType(int number)
     {
-        selectedButtons[0] = number;
+        if (selectedButtons[0] == number)
+        {
+            return;
+        }
         select(0, number);
+        selectedButtons[0] = number;
         switch (selectedType)
         {
             case 0:
                 setTypeInput(TypesOfInputs.getTypes()[number]);
+                select(1, 0);
+                selectedButtons[1] = 0;
+                select(2, 0);
+                selectedButtons[2] = 0;
+                select(3, 0);
+                selectedButtons[3] = 0;
                 break;
             case 1:
                 setTypeGate(TypesOfLogic.getTypes()[number]);
                 break;
             case 2:
                 setTypeOutput(TypesOfOutputs.getTypes()[number]);
+                select(1, 0);
+                selectedButtons[1] = 0;
                 break;
         }
     }
@@ -127,10 +237,12 @@ public class ChoosePrompt : MonoBehaviour
         if (buttons[row][number].GetComponent<TypeButton>().isSelected())
         {
             buttons[row][number].GetComponent<TypeButton>().select(false);
+            selectedInputs[number] = false;
         }
         else
         {
             buttons[row][number].GetComponent<TypeButton>().select(true);
+            selectedInputs[number] = true;
         }
     }
     public void select(int row, int number)
@@ -146,21 +258,53 @@ public class ChoosePrompt : MonoBehaviour
 
     private void onClickDoneInput()
     {
-
+        initButton.GetComponent<FieldInput>().onButtonChange(selectedButtons[0], selectedButtons[1], selectedButtons[2], selectedButtons[3]);
 
         prompt.SetActive(false);
     }
     private void onClickDoneGate()
     {
+        int number = 0;
+        for (int i = 0; i < 5; i++)
+        {
+            if (selectedInputs[i])
+                number++;
+        }
+        int[] inputs = new int[number];
+        int index = 0;
+        for (int i = 0; i < 5; i++)
+        {
+            if (selectedInputs[i])
+            {
+                inputs[index] = i;
+                index++;
+            }
+        }
+        initButton.GetComponent<FieldLogic>().onButtonChange(selectedButtons[0], inputs);
 
-
-        prompt.SetActive(true);
+        prompt.SetActive(false);
     }
     private void onClickDoneOutput()
-    {  
+    {
+        int number = 0;
+        for (int i = 0; i < 5; i++)
+        {
+            if (selectedInputs[i])
+                number++;
+        }
+        int[] inputs = new int[number];
+        int index = 0;
+        for (int i = 0; i < 5; i++)
+        {
+            if (selectedInputs[i])
+            {
+                inputs[index] = i;
+                index++;
+            }
+        }
+        initButton.GetComponent<FieldOutput>().onButtonChange(selectedButtons[0], selectedButtons[1], inputs);
 
-
-        prompt.SetActive(true);
+        prompt.SetActive(false);
     }
 
     private void activateButtons(int row, int count)

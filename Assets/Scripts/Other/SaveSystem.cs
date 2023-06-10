@@ -4,28 +4,30 @@ using UnityEngine;
 
 public static class SaveSystem
 {
+    private static string path = Application.persistentDataPath;
+    private static string oldPath = Application.dataPath + "/SavedLevels";
     public static void saveLevel(LevelData levelData, string levelName)
     {
         // Convert level data from LevelData object to string
         string levelDataString = JsonUtility.ToJson(levelData);
 
         // Save level data to file
-        System.IO.File.WriteAllText(Application.dataPath + "/SavedLevels/" + levelName + ".json", levelDataString);
+        System.IO.File.WriteAllText(path + "/" + levelName + ".json", levelDataString);
     }
     public static void deleteLevel(string levelName)
     {
         // Delete level data file
-        System.IO.File.Delete(Application.dataPath + "/SavedLevels/" + levelName + ".json");
+        System.IO.File.Delete(path + "/" + levelName + ".json");
     }
     public static LevelData getLevel(string levelName)
     {
-        if (!System.IO.File.Exists(Application.dataPath + "/SavedLevels/" + levelName + ".json"))
+        if (!System.IO.File.Exists(path + "/" + levelName + ".json"))
         {
             return null;
         }
 
         // Get level data from file
-        string levelDataString = System.IO.File.ReadAllText(Application.dataPath + "/SavedLevels/" + levelName + ".json");
+        string levelDataString = System.IO.File.ReadAllText(path + "/" + levelName + ".json");
 
         // Convert level data from string to LevelData object
         LevelData levelData = JsonUtility.FromJson<LevelData>(levelDataString);
@@ -35,7 +37,7 @@ public static class SaveSystem
     public static string[] getAllNames()
     {
         // Get all files with .json extension in SavedLevels folder
-        string[] filePaths = System.IO.Directory.GetFiles(Application.dataPath + "/SavedLevels/", "*.json");
+        string[] filePaths = System.IO.Directory.GetFiles(path + "/", "*.json");
 
         // Get level names from file paths
         string[] levelNames = new string[filePaths.Length];
@@ -48,6 +50,6 @@ public static class SaveSystem
     }
     public static bool exists(string levelName)
     {
-        return System.IO.File.Exists(Application.dataPath + "/SavedLevels/" + levelName + ".json");
+        return System.IO.File.Exists(path + "/" + levelName + ".json");
     }
 }

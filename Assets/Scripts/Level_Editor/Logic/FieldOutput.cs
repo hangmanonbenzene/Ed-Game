@@ -6,49 +6,64 @@ using UnityEngine.UI;
 
 public class FieldOutput : MonoBehaviour
 {
-    private SensorOutput[] sensorOutputs;
+    private SensorOutput[][] sensorOutputs;
+    private int selectedField;
 
     [SerializeField] private GameObject[] buttons;
     [SerializeField] private GameObject slider;
 
     [SerializeField] private GameObject logicFields;
+    private int clickedButton;
 
-    public void setup(SensorOutput[] sensorOutputs, int sliderValue)
+    public void setup(SensorOutput[][] sensorOutputs)
     {
-        this.sensorOutputs = new SensorOutput[5];
+        this.sensorOutputs = new SensorOutput[5][];
         for (int i = 0; i < 5; i++)
         {
-            if (i < sensorOutputs.Length)
+            this.sensorOutputs[i] = new SensorOutput[5];
+            for (int j = 0; j < 5; j++)
             {
-                this.sensorOutputs[i] = sensorOutputs[i];
+                if (j < sensorOutputs[i].Length)
+                {
+                    this.sensorOutputs[i][j] = sensorOutputs[i][j];
+                }
+                else
+                {
+                    this.sensorOutputs[i][j] = new SensorOutput("empty", "", new int[0]);
+                }
             }
-            else
-            {
-                this.sensorOutputs[i] = new SensorOutput("empty", "", new int[0]);
-            }
-        }
-        for (int i = 0; i < 5; i++)
-        {
             int number = i;
-            buttons[i].GetComponent<Button>().onClick.RemoveAllListeners();
             buttons[i].GetComponent<Button>().onClick.AddListener(() => onClickButton(number));
-            string type = this.sensorOutputs[i].type;
-            string spec = this.sensorOutputs[i].specification;
+        }
+    }
+
+    public void goToField(int number, int sliderValue)
+    {
+        selectedField = number;
+        for (int i = 0; i < 5; i++)
+        {
+            string type = this.sensorOutputs[number][i].type;
+            string spec = this.sensorOutputs[number][i].specification;
             buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = TypesOfOutputs.getSymbolForType(type, spec);
-            if (slider.GetComponent<Slider>().value == sliderValue)
-            {
-                onChangeValue();
-            }
-            else
-            {
-                slider.GetComponent<Slider>().value = sliderValue;
-            }
+        }
+        if (slider.GetComponent<Slider>().value == sliderValue)
+        {
+            onChangeValue();
+        }
+        else
+        {
+            slider.GetComponent<Slider>().value = sliderValue;
         }
     }
 
     private void onClickButton(int number)
     {
-        Debug.Log(number);
+        clickedButton = number;
+        string type = this.sensorOutputs[selectedField][number].type;
+        int typenumber = System.Array.IndexOf(TypesOfOutputs.getTypes(), type);
+        int spec = System.Array.IndexOf(TypesOfOutputs.getSpecificationsForType(type), sensorOutputs[selectedField][number].specification);
+        int[] inputs = sensorOutputs[selectedField][number].inputs;
+        logicFields.GetComponent<ChoosePrompt>().activateOutput(this.gameObject, typenumber, spec, inputs);
     }
     public void onChangeValue()
     {
@@ -65,5 +80,20 @@ public class FieldOutput : MonoBehaviour
                 buttons[i].GetComponent<Button>().interactable = false;
             }
         }
+    }
+
+    public SensorOutput[][] getSensorOutputs()
+    {
+        return sensorOutputs;
+    }
+
+    public void onButtonChange(int type, int spec, int[] inputs)
+    {
+        sensorOutputs[selectedField][clickedButton].type = TypesOfOutputs.getTypes()[type];
+        sensorOutputs[selectedField][clickedButton].specification = TypesOfOutputs.getSpecificationsForType(TypesOfOutputs.getTypes()[type])[spec];
+        sensorOutputs[selectedField][clickedButton].inputs = inputs;
+        string typeString = TypesOfOutputs.getTypes()[type];
+        string specString = TypesOfOutputs.getSpecificationsForType(typeString)[spec];
+        buttons[clickedButton].GetComponentInChildren<TextMeshProUGUI>().text = TypesOfOutputs.getSymbolForType(typeString, specString);
     }
 }

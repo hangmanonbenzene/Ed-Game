@@ -35,6 +35,24 @@ public class Pause : MonoBehaviour
             onClickQuit();
         }
     }
+    public void onClickSaveAndPlay()
+    {
+        string levelName = nameInput.GetComponent<TMPro.TMP_InputField>().text;
+        GameObject nameSave = GameObject.FindGameObjectWithTag("LevelName");
+        if (levelName.Equals("Neues Level") || levelName.Equals("") || nameSave == null)
+        {
+            Debug.Log("Error: Level name is invalid or there is no GameObject levelName");
+        }
+        else
+        {
+            LevelData levelData = saveGameCreator.GetComponent<SaveGameCreator>().createSaveGame(levelName);
+            SaveSystem.saveLevel(levelData, levelName);
+            
+            nameSave.GetComponent<LevelName>().setLevelName(levelName);
+
+            SceneManager.LoadScene(1);
+        }
+    }
     public void onClickQuit()
     {
         SceneManager.LoadScene(0);

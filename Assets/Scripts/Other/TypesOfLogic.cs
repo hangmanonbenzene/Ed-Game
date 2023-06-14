@@ -7,21 +7,21 @@ public static class TypesOfLogic
     private static string[] types = new string[]
     {
         "empty",
-        "not",
         "and",
         "or",
         "xor",
+        "not",
         "nand",
         "nor",
         "xnor"
     };
     private static string[] symbol = new string[]
     {
-        "",
-        "NOT",
+        "Leer",
         "AND",
         "OR",
         "XOR",
+        "NOT",
         "NAND",
         "NOR",
         "XNOR"

@@ -14286,6 +14286,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   field: {fileID: 649576324}
   logicField: {fileID: 1531239140}
+  fieldButton: {fileID: 986658336}
+  logicButton: {fileID: 190064727}
 --- !u!1 &1888503463
 GameObject:
   m_ObjectHideFlags: 0

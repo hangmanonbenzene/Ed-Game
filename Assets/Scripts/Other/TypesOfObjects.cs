@@ -13,10 +13,10 @@ public static class TypesOfObjects
     };
     private static string[][] specifications = new string[][]
     {
-        new string[]{""},
-        new string[]{"up", "right", "down", "left"},
-        new string[]{""},
-        new string[]{""}
+        new string[]{ "" },
+        new string[]{ "up", "right", "down", "left" },
+        new string[]{ "" },
+        new string[]{ "" }
     };
     public static string[][] symbols = new string[][]
     {

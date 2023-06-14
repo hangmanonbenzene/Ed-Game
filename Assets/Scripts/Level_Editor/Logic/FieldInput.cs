@@ -29,7 +29,11 @@ public class FieldInput : MonoBehaviour
                 }
                 else
                 {
-                    this.sensorInputs[i][j] = new SensorInput("empty", "", "", "");
+                    string type = TypesOfInputs.getTypes()[0];
+                    string spec1 = TypesOfInputs.getSpecificationsForType(type, 1)[0];
+                    string spec2 = TypesOfInputs.getSpecificationsForType(type, 2)[0];
+                    string spec3 = TypesOfInputs.getSpecificationsForType(type, 3)[0];
+                    this.sensorInputs[i][j] = new SensorInput(type, spec1, spec2, spec3);
                 }
             }
             int number = i;

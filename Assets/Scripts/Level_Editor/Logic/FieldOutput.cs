@@ -29,7 +29,9 @@ public class FieldOutput : MonoBehaviour
                 }
                 else
                 {
-                    this.sensorOutputs[i][j] = new SensorOutput("empty", "", new int[0]);
+                    string type = TypesOfOutputs.getTypes()[0];
+                    string spec = TypesOfOutputs.getSpecificationsForType(type)[0];
+                    this.sensorOutputs[i][j] = new SensorOutput(type, spec, new int[0]);
                 }
             }
             int number = i;

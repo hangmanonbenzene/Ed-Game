@@ -26,11 +26,17 @@ public class LogicFields : MonoBehaviour
             else
             {
                 SensorInput[] sensorInputs = new SensorInput[1];
-                sensorInputs[0] = new SensorInput("empty", "", "", "");
+                string type = TypesOfInputs.getTypes()[0];
+                string spec1 = TypesOfInputs.getSpecificationsForType(type, 1)[0];
+                string spec2 = TypesOfInputs.getSpecificationsForType(type, 2)[0];
+                string spec3 = TypesOfInputs.getSpecificationsForType(type, 3)[0];
+                sensorInputs[0] = new SensorInput(type, spec1, spec2, spec3);
                 LogicGate[] logicGates = new LogicGate[1];
-                logicGates[0] = new LogicGate(0, 0, "empty", new int[0]);
+                logicGates[0] = new LogicGate(0, 0, TypesOfLogic.getTypes()[0], new int[0]);
                 SensorOutput[] sensorOutput = new SensorOutput[1];
-                sensorOutput[0] = new SensorOutput("empty", "", new int[0]);
+                type = TypesOfOutputs.getTypes()[0];
+                string spec = TypesOfOutputs.getSpecificationsForType(type)[0];
+                sensorOutput[0] = new SensorOutput(type, spec, new int[0]);
 
                 LogicField logicField = new LogicField(sensorInputs, logicGates, sensorOutput);
                 newlogicFields[i] = logicField;

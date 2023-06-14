@@ -14,7 +14,7 @@ public class LevelEditor : MonoBehaviour
     void Start()
     {
         levelName = findLevelName();
-        LevelData levelData = new LevelData("", new Field[0], new LogicField[0]);
+        LevelData levelData = null;
         if (SaveSystem.exists(levelName))
         {
             levelData = SaveSystem.getLevel(levelName);
@@ -62,13 +62,19 @@ public class LevelEditor : MonoBehaviour
     private LogicField emptyLogicField()
     {
         SensorInput[] sensorInputs = new SensorInput[1];
-        sensorInputs[0] = new SensorInput("empty", "", "", "");
+        string type = TypesOfInputs.getTypes()[0];
+        string spec1 = TypesOfInputs.getSpecificationsForType(type, 1)[0];
+        string spec2 = TypesOfInputs.getSpecificationsForType(type, 2)[0];
+        string spec3 = TypesOfInputs.getSpecificationsForType(type, 3)[0];
+        sensorInputs[0] = new SensorInput(type, spec1, spec2, spec3);
 
         LogicGate[] logicGates = new LogicGate[1];
-        logicGates[0] = new LogicGate(0, 0, "empty", new int[0]);
+        logicGates[0] = new LogicGate(0, 0, TypesOfLogic.getTypes()[0], new int[0]);
 
         SensorOutput[] sensorOutputs = new SensorOutput[1];
-        sensorOutputs[0] = new SensorOutput("empty", "", new int[0]);
+        type = TypesOfOutputs.getTypes()[0];
+        string spec = TypesOfOutputs.getSpecificationsForType(type)[0];
+        sensorOutputs[0] = new SensorOutput(type, spec, new int[0]);
 
         return new LogicField(sensorInputs, logicGates, sensorOutputs);
     }

@@ -6,22 +6,22 @@ public static class TypesOfOutputs
 {
     private static string[] types = new string[]
     {
-        "empty",
+        "wait",
         "walk",
         "turn"
     };
     private static string[][] specifications = new string[][]
     {
-        new string[]{""},
-        new string[]{""},
-        new string[]{"left", "right"}
+        new string[] { "" },
+        new string[] { "" },
+        new string[] { "left", "right" }
     };
 
     public static string[][] symbols = new string[][]
     {
-        new string[]{ "" },
-        new string[]{ "/\\" },
-        new string[]{ "<", ">" }
+        new string[] { "-" },
+        new string[] { "/\\" },
+        new string[] { "<", ">" }
     };
 
     public static string getSymbolForType(string type, string specification)

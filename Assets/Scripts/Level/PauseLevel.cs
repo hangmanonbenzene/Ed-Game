@@ -6,15 +6,18 @@ using UnityEngine.SceneManagement;
 public class PauseLevel : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject lines;
 
     public void onClickPause()
     {
         pauseMenu.SetActive(true);
+        lines.SetActive(false);
     }
 
     public void onClickContinue()
     {
         pauseMenu.SetActive(false);
+        lines.SetActive(true);
     }
     public void onClickLevelEditor()
     {

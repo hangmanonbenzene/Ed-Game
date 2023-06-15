@@ -89,7 +89,14 @@ public class Play : MonoBehaviour
                 won.SetActive(true);
                 onClickPlay();
             }
-            yield return new WaitForSeconds(0.5f);
+            for (float i = 0; i < 0.5f; i += Time.deltaTime)
+            {
+                if(!isPlay)
+                {
+                    break;
+                }
+                yield return null;
+            }
         }
 
 

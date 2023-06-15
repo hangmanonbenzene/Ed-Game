@@ -22,7 +22,7 @@ public class ChoosePrompt : MonoBehaviour
     public void setup()
     {
         buttons = new GameObject[4][];
-        buttons[0] = new GameObject[8];
+        buttons[0] = new GameObject[9];
         buttons[1] = new GameObject[8];
         buttons[2] = new GameObject[8];
         buttons[3] = new GameObject[6];
@@ -31,7 +31,7 @@ public class ChoosePrompt : MonoBehaviour
             for (int j = 0; j < buttons[i].Length; j++)
             {
                 buttons[i][j] = Instantiate(buttonPrefab, new Vector3(0, 0, 0), new Quaternion(), buttonholder.transform);
-                buttons[i][j].GetComponent<RectTransform>().anchoredPosition = new Vector2((float)(180 * (j - 3.5)), (float)(180 * (-i + 1.5)));
+                buttons[i][j].GetComponent<RectTransform>().anchoredPosition = new Vector2((float)(180 * (j - 4.5)), (float)(180 * (-i + 1.5)));
                 if (i == 0)
                 {
                     // Set the font size of the type buttons

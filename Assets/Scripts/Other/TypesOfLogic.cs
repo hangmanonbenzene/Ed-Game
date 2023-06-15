@@ -7,6 +7,7 @@ public static class TypesOfLogic
     private static string[] types = new string[]
     {
         "empty",
+        "buffer",
         "and",
         "or",
         "xor",
@@ -18,6 +19,7 @@ public static class TypesOfLogic
     private static string[] symbol = new string[]
     {
         "Leer",
+        "",
         "AND",
         "OR",
         "XOR",

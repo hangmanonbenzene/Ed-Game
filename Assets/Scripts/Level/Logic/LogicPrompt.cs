@@ -44,25 +44,28 @@ public class LogicPrompt : MonoBehaviour
         this.logic = logic;
         titel.GetComponent<TMPro.TextMeshProUGUI>().text = "Logik";
         activeButtons = multipleInputs ? new int[] { 0, 1, 2, 3, 5, 6, 7 } : new int[] { 0, 4 };
-        buttons[0].GetComponent<Button>().interactable = true;
-        buttons[0].GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Leer";
-        buttons[1].GetComponent<Button>().interactable = multipleInputs ? true : false;
+        buttons[0].GetComponent<Button>().interactable = !multipleInputs;
+        buttons[0].GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "";
+        buttons[1].GetComponent<Button>().interactable = multipleInputs;
         buttons[1].GetComponentInChildren<TMPro.TextMeshProUGUI>().text = multipleInputs ? "AND" : "";
-        buttons[2].GetComponent<Button>().interactable = multipleInputs ? true : false;
+        buttons[2].GetComponent<Button>().interactable = multipleInputs;
         buttons[2].GetComponentInChildren<TMPro.TextMeshProUGUI>().text = multipleInputs ? "OR" : "";
-        buttons[3].GetComponent<Button>().interactable = multipleInputs ? true : false;
+        buttons[3].GetComponent<Button>().interactable = multipleInputs;
         buttons[3].GetComponentInChildren<TMPro.TextMeshProUGUI>().text = multipleInputs ? "XOR" : "";
-        buttons[4].GetComponent<Button>().interactable = multipleInputs ? false : true;
+        buttons[4].GetComponent<Button>().interactable = !multipleInputs;
         buttons[4].GetComponentInChildren<TMPro.TextMeshProUGUI>().text = multipleInputs ? "" : "NOT";
-        buttons[5].GetComponent<Button>().interactable = multipleInputs ? true : false;
+        buttons[5].GetComponent<Button>().interactable = multipleInputs;
         buttons[5].GetComponentInChildren<TMPro.TextMeshProUGUI>().text = multipleInputs ? "NAND" : "";
-        buttons[6].GetComponent<Button>().interactable = multipleInputs ? true : false;
+        buttons[6].GetComponent<Button>().interactable = multipleInputs;
         buttons[6].GetComponentInChildren<TMPro.TextMeshProUGUI>().text = multipleInputs ? "NOR" : "";
-        buttons[7].GetComponent<Button>().interactable = multipleInputs ? true : false;
+        buttons[7].GetComponent<Button>().interactable = multipleInputs;
         buttons[7].GetComponentInChildren<TMPro.TextMeshProUGUI>().text = multipleInputs ? "XNOR" : "";
 
         switch (logic.type)
         {
+            case "buffer":
+                selectButton(0);
+                break;
             case "and":
                 selectButton(1);
                 break;
@@ -85,7 +88,7 @@ public class LogicPrompt : MonoBehaviour
                 selectButton(7);
                 break;
             default:
-                selectButton(0);
+                selectButton(-1);
                 break;
         }
 
@@ -119,7 +122,7 @@ public class LogicPrompt : MonoBehaviour
                 buttons[i].GetComponentInChildren<TMPro.TextMeshProUGUI>().color = new Color32(50, 50, 50, 255);
             }
         }
-        logic.type = TypesOfLogic.getTypes()[button];
+        logic.type = TypesOfLogic.getTypes()[button + 1];
     }
     private void activatePrompt()
     {

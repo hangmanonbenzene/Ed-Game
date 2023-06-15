@@ -29,6 +29,8 @@ public class LevelLogic : MonoBehaviour
     private LogicGate[][] rowThree;
     private SensorOutput[][] outputs;
 
+    private bool[][][] permanentGates;
+
     private int maxXCoordinate = 300;
     private int minXCoordinate = -300;
     private int maxYCoordinate = 340;
@@ -45,6 +47,7 @@ public class LevelLogic : MonoBehaviour
         rowTwo = new LogicGate[numberOfFields][];
         rowThree = new LogicGate[numberOfFields][];
         outputs = new SensorOutput[numberOfFields][];
+        permanentGates = new bool[numberOfFields][][];
 
         for (int i = 0; i < numberOfFields; i++)
         {
@@ -86,6 +89,31 @@ public class LevelLogic : MonoBehaviour
                 outputs[i][j] = logicFields[i].sensorOutputs[j];
             }
 
+            int numberOfRows = 0;
+            numberOfRows += (rowOne[i].Length > 0) ? 1 : 0;
+            numberOfRows += (rowTwo[i].Length > 0) ? 1 : 0;
+            numberOfRows += (rowThree[i].Length > 0) ? 1 : 0;
+            permanentGates[i] = new bool[numberOfRows][];
+            for (int j = 0; j < numberOfRows; j++)
+            {
+                permanentGates[i][j] = new bool[numberOfLogic[j]];
+                switch (j)
+                {
+                    case 0:
+                        for (int k = 0; k < numberOfLogic[j]; k++)
+                            permanentGates[i][j][k] = rowOne[i][k].type != "empty";
+                        break;
+                    case 1:
+                        for (int k = 0; k < numberOfLogic[j]; k++)
+                            permanentGates[i][j][k] = rowTwo[i][k].type != "empty";
+                        break;
+                    case 2:
+                        for (int k = 0; k < numberOfLogic[j]; k++)
+                            permanentGates[i][j][k] = rowThree[i][k].type != "empty";
+                        break;
+                }
+            }
+
             GameObject button = Instantiate(chooseButton, chooseHolder.transform);
             int x = (numberOfFields - 1) * (-60) + 120 * i;
             int y = -370;
@@ -96,6 +124,7 @@ public class LevelLogic : MonoBehaviour
             chooseButtons[i] = button;
         }
         repairWrongInputs();
+        dealWithPermanentGates();
         onClickChoose(0);
     }
 
@@ -219,11 +248,29 @@ public class LevelLogic : MonoBehaviour
                     if (row == numberOfRows + 1)
                         inputs = outputs[number][numberInRow].inputs;
                     else if (i == 1 && i <= numberOfRows)
+                    {
                         inputs = rowOne[number][numberInRow].inputs;
+                        if (permanentGates[number][0][numberInRow])
+                            button.GetComponent<Button>().interactable = false;
+                        else
+                            button.GetComponent<Button>().interactable = true;
+                    }
                     else if (i == 2 && i <= numberOfRows)
+                    {
                         inputs = rowTwo[number][numberInRow].inputs;
+                        if (permanentGates[number][1][numberInRow])
+                            button.GetComponent<Button>().interactable = false;
+                        else
+                            button.GetComponent<Button>().interactable = true;
+                    }
                     else if (i == 3 && i <= numberOfRows)
+                    {
                         inputs = rowThree[number][numberInRow].inputs;
+                        if (permanentGates[number][2][numberInRow])
+                            button.GetComponent<Button>().interactable = false;
+                        else
+                            button.GetComponent<Button>().interactable = true;
+                    }
                     if (inputs.Length > 2 || (row == numberOfRows + 1 && inputs.Length > 1))
                     {
                         Debug.Log("Error: too many inputs in row " + row);
@@ -357,7 +404,7 @@ public class LevelLogic : MonoBehaviour
                     if (row == numberOfRows)
                     {
                         if (outputs[i][position].inputs.Length == 0)
-                            outputs[i][position].inputs = new int[] { 0 };
+                            outputs[i][position].inputs = new int[] { position };
                         else if (outputs[i][position].inputs.Length > 1)
                             outputs[i][position].inputs = new int[] { outputs[i][position].inputs[0] };
                         if (outputs[i][position].inputs[0] >= gateLengths[row])
@@ -366,13 +413,11 @@ public class LevelLogic : MonoBehaviour
                     else if (row == 0 && row < numberOfRows)
                     {
                         if (rowOne[i][position].inputs.Length == 0)
-                            rowOne[i][position].inputs = new int[] { 0 };
+                            rowOne[i][position].inputs = new int[] { position };
                         else if (rowOne[i][position].inputs.Length > 2)
                         {
                             int[] inputs = rowOne[i][position].inputs;
-                            rowOne[i][position].inputs = new int[2];
-                            for (int j = 0; j < 2; j++)
-                                rowOne[i][position].inputs[j] = inputs[j];
+                            rowOne[i][position].inputs = new int[] { inputs[0], inputs[1] };
                         }
                         if (rowOne[i][position].inputs.Length == 2)
                         {
@@ -388,18 +433,16 @@ public class LevelLogic : MonoBehaviour
                             }
                         }
                         if (rowOne[i][position].inputs.Length == 1 && rowOne[i][position].inputs[0] >= gateLengths[row])
-                            rowOne[i][position].inputs = new int[] { 0 };
+                            rowOne[i][position].inputs[0] = gateLengths[row] - 1;
                     }
                     else if (row == 1 && row < numberOfRows)
                     {
                         if (rowTwo[i][position].inputs.Length == 0)
-                            rowTwo[i][position].inputs = new int[] { 0 };
+                            rowTwo[i][position].inputs = new int[] { position };
                         else if (rowTwo[i][position].inputs.Length > 2)
                         {
                             int[] inputs = rowTwo[i][position].inputs;
-                            rowTwo[i][position].inputs = new int[2];
-                            for (int j = 0; j < 2; j++)
-                                rowTwo[i][position].inputs[j] = inputs[j];
+                            rowTwo[i][position].inputs = new int[] { inputs[0], inputs[1] };
                         }
                         if (rowTwo[i][position].inputs.Length == 2)
                         {
@@ -415,18 +458,16 @@ public class LevelLogic : MonoBehaviour
                             }
                         }
                         if (rowTwo[i][position].inputs.Length == 1 && rowTwo[i][position].inputs[0] >= gateLengths[row])
-                            rowTwo[i][position].inputs = new int[] { 0 };
+                            rowTwo[i][position].inputs[0] = gateLengths[row] - 1;
                     }
                     else if (row == 2 && row < numberOfRows)
                     {
                         if (rowThree[i][position].inputs.Length == 0)
-                            rowThree[i][position].inputs = new int[] { 0 };
+                            rowThree[i][position].inputs = new int[] { position };
                         else if (rowThree[i][position].inputs.Length > 2)
                         {
                             int[] inputs = rowThree[i][position].inputs;
-                            rowThree[i][position].inputs = new int[2];
-                            for (int j = 0; j < 2; j++)
-                                rowThree[i][position].inputs[j] = inputs[j];
+                            rowThree[i][position].inputs = new int[] { inputs[0], inputs[1] };
                         }
                         if (rowThree[i][position].inputs.Length == 2)
                         {
@@ -442,7 +483,55 @@ public class LevelLogic : MonoBehaviour
                             }
                         }
                         if (rowThree[i][position].inputs.Length == 1 && rowThree[i][position].inputs[0] >= gateLengths[row])
-                            rowThree[i][position].inputs = new int[] { 0 };
+                            rowThree[i][position].inputs[0] = gateLengths[row] - 1;
+                    }
+                }
+            }
+        }
+    }
+    private void dealWithPermanentGates()
+    {
+        for (int i = 0; i < permanentGates.Length;i++)
+        {
+            for (int j = 0; j < permanentGates[i].Length; j++)
+            {
+                for (int k = 0; k < permanentGates[i][j].Length; k++)
+                {
+                    if (permanentGates[i][j][k] == true)
+                    {
+                        string type = "";
+                        int inputs = 0;
+                        switch (j)
+                        {
+                            case 0:
+                                type = rowOne[i][k].type;
+                                inputs = rowOne[i][k].inputs.Length;
+                                break;
+                            case 1:
+                                type = rowTwo[i][k].type;
+                                inputs = rowTwo[i][k].inputs.Length;
+                                break;
+                            case 2:
+                                type = rowThree[i][k].type;
+                                inputs = rowThree[i][k].inputs.Length;
+                                break;
+                        }
+                        if ((type == "buffer" || type == "not") && inputs > 1)
+                        {
+                            switch (j)
+                            {
+                                case 0:
+                                    rowOne[i][k].inputs = new int[] { rowOne[i][k].inputs[0] };
+                                    break;
+                                case 1:
+                                    rowTwo[i][k].inputs = new int[] { rowTwo[i][k].inputs[0] };
+                                    break;
+                                case 2:
+                                    rowThree[i][k].inputs = new int[] { rowThree[i][k].inputs[0] };
+                                    break;
+                            }
+                        }
+
                     }
                 }
             }

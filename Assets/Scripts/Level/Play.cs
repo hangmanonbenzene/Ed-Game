@@ -45,14 +45,13 @@ public class Play : MonoBehaviour
         int currentField = 0;
         int outputsInField = levelLogic.GetComponent<LevelLogic>().GetOutputs()[currentField].GetLength(0);
         int currentPosition = 0;
-        bool hasMoved = false;
         wonPlayers = players;
 
         while (isPlay)
         {
             if (players != 0)
             {
-                hasMoved = gameLogic.GetComponent<Outputs>().use(
+                gameLogic.GetComponent<Outputs>().use(
                     new int[,] { { player[currentPlayer, 0], player[currentPlayer, 1], player[currentPlayer, 2] } }, 
                     currentPosition, currentField);
                 if (currentPlayer == players - 1)
@@ -108,5 +107,9 @@ public class Play : MonoBehaviour
     public void wonPlayer()
     {
         wonPlayers--;
+    }
+    public bool getIsPlay()
+    {
+        return isPlay;
     }
 }

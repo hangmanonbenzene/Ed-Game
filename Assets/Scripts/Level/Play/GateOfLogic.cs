@@ -5,6 +5,7 @@ using UnityEngine;
 public class GateOfLogic : MonoBehaviour
 {
     [SerializeField] private GameObject levelLogic;
+    [SerializeField] private GameObject play;
     public bool use(int row, int[,] player, int position, int currentField)
     {
         int[] inputs = levelLogic.GetComponent<LevelLogic>().GetLogicGates(row)[currentField][position].inputs;
@@ -13,9 +14,15 @@ public class GateOfLogic : MonoBehaviour
         if (inputs.Length > 1)
             values[1] = row == 1 ? GetComponent<Inputs>().use(player,inputs[1], currentField) : use(row - 1, player, inputs[1], currentField);
 
+        if (levelLogic.GetComponent<LevelLogic>().GetLogicGates(row)[currentField][position].type == "empty")
+        {
+            if (play.GetComponent<Play>().getIsPlay())
+                play.GetComponent<Play>().onClickPlay();
+            return false;
+        }
         return levelLogic.GetComponent<LevelLogic>().GetLogicGates(row)[currentField][position].type switch
         {
-            "empty" => inputs.Length == 1 ? values[0] : false,
+            "buffer" => values[0],
             "and" => values[0] && values[1],
             "or" => values[0] || values[1],
             "xor" => values[0] ^ values[1],

@@ -23,7 +23,7 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         levelName = GameObject.FindGameObjectWithTag("LevelName");
-        goToMenu(MenuState.MAIN_MENU);
+        StartCoroutine(startInMenu());
     }
 
     public void goToMenu(MenuState menuState)
@@ -48,5 +48,22 @@ public class MainMenu : MonoBehaviour
     {
         this.levelName.GetComponent<LevelName>().setLevelName(levelName);
         SceneManager.LoadScene(sceneID);
+    }
+
+    private IEnumerator startInMenu()
+    {
+        yield return null;
+        switch (levelName.GetComponent<LevelName>().getMenu())
+        {
+            case "Level":
+                goToMenu(MenuState.LEVEL_SELECTION);
+                break;
+            case "Editor":
+                goToMenu(MenuState.EDITOR_SELECTION);
+                break;
+            default:
+                goToMenu(MenuState.MAIN_MENU);
+                break;
+        }
     }
 }

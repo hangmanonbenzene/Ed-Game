@@ -25,6 +25,7 @@ public class PauseLevel : MonoBehaviour
     }
     public void onClickQuit()
     {
+        GameObject.FindGameObjectWithTag("LevelName").GetComponent<LevelName>().setMenu("Level");
         SceneManager.LoadScene(0);
     }
 }

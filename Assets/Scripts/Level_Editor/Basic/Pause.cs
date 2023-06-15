@@ -55,6 +55,7 @@ public class Pause : MonoBehaviour
     }
     public void onClickQuit()
     {
+        GameObject.FindGameObjectWithTag("LevelName").GetComponent<LevelName>().setMenu("Editor");
         SceneManager.LoadScene(0);
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class LevelName : MonoBehaviour
 {
     [SerializeField] private string levelName;
+    [SerializeField] private string menu;
 
     private static bool created = false;
 
@@ -16,6 +17,7 @@ public class LevelName : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             created = true;
             levelName = "";
+            menu = "";
         }
         else
         {
@@ -31,5 +33,13 @@ public class LevelName : MonoBehaviour
     public string getLevelName()
     {
         return levelName;
+    }
+    public void setMenu(string lastvisitedMenu)
+    {
+        this.menu = lastvisitedMenu;
+    }
+    public string getMenu()
+    {
+        return menu;
     }
 }

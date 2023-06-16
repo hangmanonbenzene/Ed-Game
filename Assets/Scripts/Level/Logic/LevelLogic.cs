@@ -115,7 +115,7 @@ public class LevelLogic : MonoBehaviour
             }
 
             GameObject button = Instantiate(chooseButton, chooseHolder.transform);
-            int x = (numberOfFields - 1) * (-60) + 120 * i;
+            int x = (numberOfFields - 1) * (-75) + 150 * i;
             int y = -370;
             button.transform.localPosition = new Vector2(x, y);
             button.GetComponentInChildren<TextMeshProUGUI>().text = (i + 1).ToString();

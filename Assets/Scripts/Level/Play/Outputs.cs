@@ -9,8 +9,8 @@ public class Outputs : MonoBehaviour
     [SerializeField] private GameObject play;
     public bool use(int[,] player, int position, int currentField)
     {
-        bool hasMoved = false;
         int input = levelLogic.GetComponent<LevelLogic>().GetOutputs()[currentField][position].inputs[0];
+        bool hasMoved;
         if (levelLogic.GetComponent<LevelLogic>().GetLogicGates(3)[currentField].Length > 0)
             hasMoved = GetComponent<GateOfLogic>().use(3, player, input, currentField);
         else if (levelLogic.GetComponent<LevelLogic>().GetLogicGates(2)[currentField].Length > 0)
@@ -20,6 +20,7 @@ public class Outputs : MonoBehaviour
         else
             hasMoved = GetComponent<Inputs>().use(player, input, currentField);
 
+        levelLogic.GetComponent<LevelLogic>().colorOutput(position, hasMoved, hasMoved);
         if (hasMoved)
         {
             switch (levelLogic.GetComponent<LevelLogic>().GetOutputs()[currentField][position].type)

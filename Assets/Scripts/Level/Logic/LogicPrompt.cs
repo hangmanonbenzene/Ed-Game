@@ -203,7 +203,7 @@ public class LogicPrompt : MonoBehaviour
                 text.GetComponent<TMPro.TextMeshProUGUI>().text = "Der Spieler läuft nach vorne.";
                 break;
             case "turn":
-                text.GetComponent<TMPro.TextMeshProUGUI>().text = "Der Spieler dreht sich nach " + spec == "left" ? "links" : "rechts" + ".";
+                text.GetComponent<TMPro.TextMeshProUGUI>().text = "Der Spieler dreht sich nach " + (spec == "left" ? "links" : "rechts") + ".";
                 break;
         }
     }

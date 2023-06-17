@@ -11,13 +11,24 @@ public class Inputs : MonoBehaviour
 
     public bool use( int[,] player, int position, int currentField)
     {
-        return levelLogic.GetComponent<LevelLogic>().GetInputs()[currentField][position].type switch
+        bool output;
+        switch (levelLogic.GetComponent<LevelLogic>().GetInputs()[currentField][position].type)
         {
-            "false" => false,
-            "true" => true,
-            "look" => look(player, position, currentField),
-            _ => false,
-        };
+            case "false":
+                output = false;
+                break;
+            case "true":
+                output = true;
+                break;
+            case "look":
+                output = look(player, position, currentField);
+                break;
+            default:
+                output = false;
+                break;
+        }
+        levelLogic.GetComponent<LevelLogic>().colorInput(position, output);
+        return output;
     }
 
     private bool look(int[,] player, int position, int currentField)

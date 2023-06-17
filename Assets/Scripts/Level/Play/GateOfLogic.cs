@@ -13,6 +13,8 @@ public class GateOfLogic : MonoBehaviour
         values[0] = row == 1 ? GetComponent<Inputs>().use(player, inputs[0], currentField) : use(row - 1, player, inputs[0], currentField);
         if (inputs.Length > 1)
             values[1] = row == 1 ? GetComponent<Inputs>().use(player,inputs[1], currentField) : use(row - 1, player, inputs[1], currentField);
+        else
+            values = new bool[] { values[0] };
 
         if (levelLogic.GetComponent<LevelLogic>().GetLogicGates(row)[currentField][position].type == "empty")
         {
@@ -20,7 +22,8 @@ public class GateOfLogic : MonoBehaviour
                 play.GetComponent<Play>().onClickPlay();
             return false;
         }
-        return levelLogic.GetComponent<LevelLogic>().GetLogicGates(row)[currentField][position].type switch
+
+        bool output = levelLogic.GetComponent<LevelLogic>().GetLogicGates(row)[currentField][position].type switch
         {
             "buffer" => values[0],
             "and" => values[0] && values[1],
@@ -32,5 +35,7 @@ public class GateOfLogic : MonoBehaviour
             "xnor" => !(values[0] ^ values[1]),
             _ => false,
         };
+        levelLogic.GetComponent<LevelLogic>().colorLogic(row, position, output, values);
+        return output;
     }
 }

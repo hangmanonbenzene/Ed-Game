@@ -20,7 +20,7 @@ public class LevelLogic : MonoBehaviour
 
     [SerializeField] private GameObject prompt;
 
-    private int currentField;
+    private int currentField = -1;
     private int[] selectedButton;
 
     private SensorInput[][] inputs;
@@ -31,11 +31,11 @@ public class LevelLogic : MonoBehaviour
 
     private bool[][][] permanentGates;
 
-    private int maxXCoordinate = 300;
-    private int minXCoordinate = -300;
-    private int maxYCoordinate = 340;
-    private int minYCoordinate = -280;
-
+    private readonly int maxXCoordinate = 300;
+    private readonly int minXCoordinate = -300;
+    private readonly int maxYCoordinate = 340;
+    private readonly int minYCoordinate = -280;
+    
     public void setupLogic(LogicField[] logicFields)
     {
         int numberOfFields = logicFields.Length;
@@ -128,8 +128,10 @@ public class LevelLogic : MonoBehaviour
         onClickChoose(0);
     }
 
-    private void onClickChoose(int number)
+    public void onClickChoose(int number)
     {
+        if (number == currentField)
+            return;
         currentField = number;
         selectChooseButton(number);
         setField(number);
@@ -313,6 +315,7 @@ public class LevelLogic : MonoBehaviour
         {
             Destroy(line);
         }
+        lines = new List<GameObject>();
     }
     private IEnumerator setButtonSymbol(int row, int number)
     {
@@ -577,5 +580,148 @@ public class LevelLogic : MonoBehaviour
     public SensorInput[][] GetInputs()
     {
         return inputs;
+    }
+
+    public void resetLogicColor()
+    {
+        foreach (GameObject button in buttons)
+        {
+            button.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+        }
+        foreach (GameObject line in lines)
+        {
+            line.GetComponent<LineRenderer>().startColor = new Color32(60, 60, 60, 255);
+            line.GetComponent<LineRenderer>().endColor = new Color32(60, 60, 60, 255);
+        }
+    }
+    public void colorInput(int position, bool on)
+    {
+        if (on)
+            buttons[position].GetComponent<Image>().color = new Color32(0, 255, 0, 255);
+        else
+            buttons[position].GetComponent<Image>().color = new Color32(255, 0, 0, 255);
+    }
+    public void colorLogic(int row, int position, bool on, bool[] inputLines)
+    {
+        int buttonsInRowsAbove = inputs[currentField].Length;
+        int inputsInRowsAbove = 0;
+        int inputsInRow = 0;
+        for (int i = 0; i < row - 1; i++)
+        {
+            switch (i)
+            {
+                case 0:
+                    buttonsInRowsAbove += rowOne[currentField].Length;
+                    foreach (LogicGate gate in rowOne[currentField])
+                        inputsInRowsAbove += gate.inputs.Length;
+                    break;
+                case 1:
+                    buttonsInRowsAbove += rowTwo[currentField].Length;
+                    foreach (LogicGate gate in rowTwo[currentField])
+                        inputsInRowsAbove += gate.inputs.Length;
+                    break;
+                case 2:
+                    buttonsInRowsAbove += rowThree[currentField].Length;
+                    foreach (LogicGate gate in rowThree[currentField])
+                        inputsInRowsAbove += gate.inputs.Length;
+                    break;
+            }
+        }
+        switch (row)
+        {
+            case 1:
+                for (int i = 0; i < position; i++)
+                    inputsInRow += rowOne[currentField][i].inputs.Length;
+                break;
+            case 2:
+                for (int i = 0; i < position; i++)
+                    inputsInRow += rowTwo[currentField][i].inputs.Length;
+                break;
+            case 3:
+                for (int i = 0; i < position; i++)
+                    inputsInRow += rowThree[currentField][i].inputs.Length;
+                break;
+            default:
+                Debug.Log("Error");
+                break;
+        }
+        if (on)
+            buttons[position + buttonsInRowsAbove].GetComponent<Image>().color = new Color32(0, 255, 0, 255);
+        else
+            buttons[position + buttonsInRowsAbove].GetComponent<Image>().color = new Color32(255, 0, 0, 255);
+        for (int i = 0; i < inputLines.Length; i++)
+        {
+            if (inputLines[i])
+            {
+                lines[i + inputsInRowsAbove + inputsInRow].GetComponent<LineRenderer>().startColor = new Color32(0, 255, 0, 255);
+                lines[i + inputsInRowsAbove + inputsInRow].GetComponent<LineRenderer>().endColor = new Color32(0, 255, 0, 255);
+            }
+            else
+            {
+                lines[i + inputsInRowsAbove + inputsInRow].GetComponent<LineRenderer>().startColor = new Color32(255, 0, 0, 255);
+                lines[i + inputsInRowsAbove + inputsInRow].GetComponent<LineRenderer>().endColor = new Color32(255, 0, 0, 255);
+            }
+        }
+    }
+    public void colorOutput(int position, bool on, bool inputLine)
+    {
+        int buttonsInRowsAbove = inputs[currentField].Length;
+        buttonsInRowsAbove += rowOne[currentField].Length;
+        buttonsInRowsAbove += rowTwo[currentField].Length;
+        buttonsInRowsAbove += rowThree[currentField].Length;
+        if (on)
+            buttons[position + buttonsInRowsAbove].GetComponent<Image>().color = new Color32(0, 255, 0, 255);
+        else
+            buttons[position + buttonsInRowsAbove].GetComponent<Image>().color = new Color32(255, 0, 0, 255);
+        int inputsInRowsAbove = 0;
+        foreach (LogicGate gate in rowOne[currentField])
+            inputsInRowsAbove += gate.inputs.Length;
+        foreach (LogicGate gate in rowTwo[currentField])
+            inputsInRowsAbove += gate.inputs.Length;
+        foreach (LogicGate gate in rowThree[currentField])
+            inputsInRowsAbove += gate.inputs.Length;
+        if (inputLine)
+        {
+            lines[position + inputsInRowsAbove].GetComponent<LineRenderer>().startColor = new Color32(0, 255, 0, 255);
+            lines[position + inputsInRowsAbove].GetComponent<LineRenderer>().endColor = new Color32(0, 255, 0, 255);
+        }
+        else
+        {
+            lines[position + inputsInRowsAbove].GetComponent<LineRenderer>().startColor = new Color32(255, 0, 0, 255);
+            lines[position + inputsInRowsAbove].GetComponent<LineRenderer>().endColor = new Color32(255, 0, 0, 255);
+        }
+    }
+
+    public void debugLog()
+    {
+        for (int i = 0; i < inputs.Length; i++)
+        {
+            Debug.Log("Field: " + i);
+            Debug.Log("Inputs: ");
+            for (int j = 0; j < inputs[i].Length; j++)
+            {
+                Debug.Log("Input " + j + ": " + inputs[i][j].type);
+            }
+            Debug.Log("RowOne: ");
+            for (int j = 0; j < rowOne[i].Length; j++)
+            {
+                Debug.Log("Gate " + j + ": " + rowOne[i][j].type + " " + rowOne[i][j].inputs.Length);
+            }
+            Debug.Log("RowTwo: ");
+            for (int j = 0; j < rowTwo[i].Length; j++)
+            {
+                Debug.Log("Gate " + j + ": " + rowTwo[i][j].type + " " + rowTwo[i][j].inputs.Length);
+            }
+            Debug.Log("RowThree: ");
+            for (int j = 0; j < rowThree[i].Length; j++)
+            {
+                Debug.Log("Gate " + j + ": " + rowThree[i][j].type + " " + rowThree[i][j].inputs.Length);
+            }
+            Debug.Log("Outputs: ");
+            for (int j = 0; j < outputs[i].Length; j++)
+            {
+                Debug.Log("Output " + j + ": " + outputs[i][j].type + " " + outputs[i][j].inputs.Length);
+            }
+        }
     }
 }

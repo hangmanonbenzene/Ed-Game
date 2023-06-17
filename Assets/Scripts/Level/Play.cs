@@ -17,6 +17,8 @@ public class Play : MonoBehaviour
     private bool isPlay = false;
     private int wonPlayers;
 
+    private readonly float time = 0.5f;
+
     public void onClickPlay()
     {
         if (!isPlay)
@@ -36,7 +38,13 @@ public class Play : MonoBehaviour
 
     private IEnumerator play()
     {
-        yield return new WaitForSeconds(0.5f);
+        for (float i = 0; i < time; i += Time.deltaTime)
+        {
+            if (isPlay)
+                yield return null;
+            else
+                break;
+        }
 
         int[,] player = field.GetComponent<LevelField>().getPlayerPositions();
         int players = player.GetLength(0);
@@ -51,6 +59,9 @@ public class Play : MonoBehaviour
         {
             if (players != 0)
             {
+                levelLogic.GetComponent<LevelLogic>().onClickChoose(currentField);
+                yield return null;
+                levelLogic.GetComponent<LevelLogic>().resetLogicColor();
                 gameLogic.GetComponent<Outputs>().use(
                     new int[,] { { player[currentPlayer, 0], player[currentPlayer, 1], player[currentPlayer, 2] } }, 
                     currentPosition, currentField);
@@ -82,23 +93,22 @@ public class Play : MonoBehaviour
                     currentPlayer++;
                 }
             }
+            for (float i = 0; i < time; i += Time.deltaTime)
+            {
+                if(isPlay)
+                    yield return null;
+                else
+                    break;
+            }
             if (wonPlayers == 0)
             {
                 lines.SetActive(false);
                 won.SetActive(true);
                 onClickPlay();
             }
-            for (float i = 0; i < 0.5f; i += Time.deltaTime)
-            {
-                if(!isPlay)
-                {
-                    break;
-                }
-                yield return null;
-            }
         }
 
-
+        levelLogic.GetComponent<LevelLogic>().resetLogicColor();
         field.GetComponent<LevelField>().resetField();
         GetComponent<Button>().interactable = true;
         disableLogic.SetActive(false);

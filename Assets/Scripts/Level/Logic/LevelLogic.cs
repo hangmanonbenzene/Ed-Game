@@ -30,15 +30,17 @@ public class LevelLogic : MonoBehaviour
     private SensorOutput[][] outputs;
 
     private bool[][][] permanentGates;
+    private int[] restrictedGates;
 
     private readonly int maxXCoordinate = 300;
     private readonly int minXCoordinate = -300;
     private readonly int maxYCoordinate = 340;
     private readonly int minYCoordinate = -280;
     
-    public void setupLogic(LogicField[] logicFields)
+    public void setupLogic(LogicField[] logicFields, int[] restrictedGates)
     {
         int numberOfFields = logicFields.Length;
+        this.restrictedGates = restrictedGates;
 
         chooseButtons = new GameObject[numberOfFields];
 
@@ -155,17 +157,17 @@ public class LevelLogic : MonoBehaviour
         else if (row == 1 && row <= numberOfRows)
         {
             bool hasmultipleInputs = rowOne[currentField][number].inputs.Length > 1;
-            prompt.GetComponent<LogicPrompt>().setLogic(rowOne[currentField][number], hasmultipleInputs);
+            prompt.GetComponent<LogicPrompt>().setLogic(rowOne[currentField][number], hasmultipleInputs, restrictedGates);
         }
         else if (row == 2 && row <= numberOfRows)
         {
             bool hasmultipleInputs = rowTwo[currentField][number].inputs.Length > 1;
-            prompt.GetComponent<LogicPrompt>().setLogic(rowTwo[currentField][number], hasmultipleInputs);
+            prompt.GetComponent<LogicPrompt>().setLogic(rowTwo[currentField][number], hasmultipleInputs, restrictedGates);
         }
         else if (row == 3 && row <= numberOfRows)
         {
             bool hasmultipleInputs = rowThree[currentField][number].inputs.Length > 1;
-            prompt.GetComponent<LogicPrompt>().setLogic(rowThree[currentField][number], hasmultipleInputs);
+            prompt.GetComponent<LogicPrompt>().setLogic(rowThree[currentField][number], hasmultipleInputs, restrictedGates);
         }
     }
 

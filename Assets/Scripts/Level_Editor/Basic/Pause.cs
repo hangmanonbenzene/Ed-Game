@@ -30,7 +30,7 @@ public class Pause : MonoBehaviour
         else
         {
             LevelData levelData = saveGameCreator.GetComponent<SaveGameCreator>().createSaveGame(levelName);
-            SaveSystem.saveLevel(levelData, levelName);
+            SaveSystem.saveLevel(levelData);
 
             onClickQuit();
         }
@@ -38,24 +38,23 @@ public class Pause : MonoBehaviour
     public void onClickSaveAndPlay()
     {
         string levelName = nameInput.GetComponent<TMPro.TMP_InputField>().text;
-        GameObject nameSave = GameObject.FindGameObjectWithTag("LevelName");
-        if (levelName.Equals("Neues Level") || levelName.Equals("") || nameSave == null)
+        if (levelName.Equals("Neues Level") || levelName.Equals(""))
         {
-            Debug.Log("Error: Level name is invalid or there is no GameObject levelName");
+            Debug.Log("Error: Level name is invalid");
         }
         else
         {
             LevelData levelData = saveGameCreator.GetComponent<SaveGameCreator>().createSaveGame(levelName);
-            SaveSystem.saveLevel(levelData, levelName);
+            SaveSystem.saveLevel(levelData);
             
-            nameSave.GetComponent<LevelName>().setLevelName(levelName);
+            LevelName.setLevelName(levelName);
 
             SceneManager.LoadScene(1);
         }
     }
     public void onClickQuit()
     {
-        GameObject.FindGameObjectWithTag("LevelName").GetComponent<LevelName>().setMenu("Editor");
+        LevelName.setMenu("Editor");
         SceneManager.LoadScene(0);
     }
 }

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class MainButtons : Buttons
 {
+    public void onClickStoryMode()
+    {
+        disableButtons();
+        mainMenu.GetComponent<MainMenu>().goToMenu(MainMenu.MenuState.STORY_MODE);
+    }
     public void onClickLevelSelection()
     {
         disableButtons();

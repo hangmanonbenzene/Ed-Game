@@ -9,12 +9,14 @@ public static class TypesOfObjects
         "empty",
         "player",
         "goal",
-        "wall"
+        "wall",
+        "o.o.B."
     };
     private static string[][] specifications = new string[][]
     {
         new string[]{ "" },
         new string[]{ "up", "right", "down", "left" },
+        new string[]{ "" },
         new string[]{ "" },
         new string[]{ "" }
     };
@@ -23,6 +25,7 @@ public static class TypesOfObjects
         new string[]{ "" },
         new string[]{ "/\\", ">", "\\/", "<" },
         new string[]{ "$" },
+        new string[]{ "#" },
         new string[]{ "X" }
     };
 

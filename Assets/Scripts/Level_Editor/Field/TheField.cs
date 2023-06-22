@@ -12,6 +12,7 @@ public class TheField : MonoBehaviour
     [SerializeField] private GameObject height;
 
     [SerializeField] private GameObject tilePrefab;
+    [SerializeField] private GameObject textures;
 
     private GameObject[,] tiles;
 
@@ -42,16 +43,18 @@ public class TheField : MonoBehaviour
 
     private void instantiateTheTiles()
     {
+        GameObject texturePrefabs = Instantiate(textures);
         tiles = new GameObject[7, 7];
         for (int i = 0; i < 7; i++)
         {
             for (int j = 0; j < 7; j++)
             {
-                tiles[i, j] = Instantiate(tilePrefab, this.field.transform);
+                tiles[i, j] = Instantiate(tilePrefab, field.transform);
                 int x = i;
                 int y = j;
-                tiles[i, j].GetComponent<Button>().onClick.AddListener(() => onClickTile(x, y));
-                tiles[i, j].GetComponent<RectTransform>().anchoredPosition = new Vector2(110 * i, 110 * j);
+                tiles[i, j].GetComponent<Tile>().setValues(gameObject, x, y);
+                //tiles[i, j].GetComponent<Button>().onClick.AddListener(() => onClickTile(x, y));
+                tiles[i, j].GetComponent<Tile>().setImagePrefabs(texturePrefabs);
             }
         }
     }
@@ -73,10 +76,27 @@ public class TheField : MonoBehaviour
             }
         }
 
+        // Set the tile size to fit the field
+        float size = rows >= columns ? 770 / (rows + 1) : 770 / (columns + 1);
+        foreach (GameObject tile in tiles)
+        {
+            tile.GetComponent<RectTransform>().sizeDelta = new Vector2(size, size);
+        }
+
+        // Move the tiles so that they have the correct distance to each other
+        for (int i = 0; i < 7; i++)
+        {
+            for (int j = 0; j < 7; j++)
+            {
+                tiles[i, j].GetComponent<RectTransform>().anchoredPosition = new Vector2(size * i, size * j);
+                tiles[i, j].GetComponent<Tile>().setImageSize();
+            }
+        }
+
         // Move the field so that the active tiles are centered
         Vector2 center = new Vector2(0, 0);
-        center.x = -110 * rows / 2;
-        center.y = -110 * columns / 2;
+        center.x = rows >= columns ? -385 + size / 2 : -size * rows / 2;
+        center.y = columns >= rows ? -385 + size / 2 : -size * columns / 2;
         this.field.GetComponent<RectTransform>().anchoredPosition = center;
     }
     private void setTiles(Field[] field, int rows, int columns)
@@ -91,7 +111,7 @@ public class TheField : MonoBehaviour
         }
     }
 
-    private void onClickTile(int x, int y)
+    public void onClickTile(int x, int y)
     {
         string[] type = fieldMenu.GetComponent<FieldMenu>().getSelectedType();
         tiles[x, y].GetComponent<Tile>().setup(type[0], type[1]);

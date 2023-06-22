@@ -7,6 +7,7 @@ public class Outputs : MonoBehaviour
     [SerializeField] private GameObject levelLogic;
     [SerializeField] private GameObject field;
     [SerializeField] private GameObject play;
+
     public bool use(int[,] player, int position, int currentField)
     {
         int input = levelLogic.GetComponent<LevelLogic>().GetOutputs()[currentField][position].inputs[0];
@@ -34,9 +35,16 @@ public class Outputs : MonoBehaviour
                 case "turn":
                     turn(player, position, currentField);
                     break;
+                case "write":
+                    write(player, position, currentField, true);
+                    break;
                 default:
                     break;
             }
+        }
+        else if (levelLogic.GetComponent<LevelLogic>().GetOutputs()[currentField][position].type.Equals("write"))
+        {
+            write(player, position, currentField, false);
         }
         return hasMoved;
     }
@@ -73,11 +81,13 @@ public class Outputs : MonoBehaviour
         }
         if (!field.GetComponent<LevelField>().getField(x, y)[0].Equals("player") &&
             !field.GetComponent<LevelField>().getField(x, y)[0].Equals("wall") &&
+            !field.GetComponent<LevelField>().getField(x, y)[0].Equals("o.o.B.") &&
             !field.GetComponent<LevelField>().getField(x, y)[0].Equals("goal"))
             field.GetComponent<LevelField>().moveField(player[0, 0], player[0, 1], x, y);
         else if (field.GetComponent<LevelField>().getField(x, y)[0].Equals("goal"))
         {
-            field.GetComponent<LevelField>().setField(player[0, 0], player[0, 1], new Field(player[0, 0], player[0, 1], "empty", ""));
+            //field.GetComponent<LevelField>().setField(player[0, 0], player[0, 1], new Field(player[0, 0], player[0, 1], "empty", ""));
+            field.GetComponent<LevelField>().moveField(player[0, 0], player[0, 1], x, y);
             play.GetComponent<Play>().wonPlayer();
         }
     }
@@ -102,5 +112,27 @@ public class Outputs : MonoBehaviour
         }
         Field turnedPlayer = new Field(player[0, 0], player[0, 1], "player", TypesOfObjects.getSpecificationsForType("player")[player[0, 2]]);
         field.GetComponent<LevelField>().setField(player[0, 0], player[0, 1], turnedPlayer);
+    }
+    private void write(int[,] player, int position, int currentField, bool value)
+    {
+        string where = levelLogic.GetComponent<LevelLogic>().GetOutputs()[currentField][position].specification;
+        switch (where)
+        {
+            case "A":
+                gameObject.GetComponent<Inputs>().write(value, 0);
+                break;
+            case "B":
+                gameObject.GetComponent<Inputs>().write(value, 1);
+                break;
+            case "C":
+                gameObject.GetComponent<Inputs>().write(value, 2);
+                break;
+            case "D":
+                gameObject.GetComponent<Inputs>().write(value, 3);
+                break;
+            default:
+                Debug.Log("Error: There is no memory here.");
+                break;
+        }
     }
 }

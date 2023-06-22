@@ -14,17 +14,17 @@ public class LevelEditor : MonoBehaviour
     void Start()
     {
         levelName = findLevelName();
-        LevelData levelData = null;
+        LevelData levelData;
         if (SaveSystem.exists(levelName))
         {
-            levelData = SaveSystem.getLevel(levelName);
+            levelData = SaveSystem.getLevel(levelName, false);
         }
         else
         {
             levelData = emptyLevel();
         }
 
-        fieldMenu.GetComponent<FieldMenu>().setupField(levelData.field);
+        fieldMenu.GetComponent<FieldMenu>().setupField(levelData.field, levelData.restrictedGates);
         logicMenu.GetComponent<LogicMenu>().setupLogic(levelData.logicField);
 
         select.GetComponent<Select>().onClickField();
@@ -37,14 +37,13 @@ public class LevelEditor : MonoBehaviour
 
     private string findLevelName()
     {
-        GameObject levelName = GameObject.FindGameObjectWithTag("LevelName");
-        if (levelName == null || levelName.GetComponent<LevelName>().getLevelName().Equals("Neues Level"))
+        if (LevelName.getLevelName().Equals("") || LevelName.getLevelName().Equals("Neues Level"))
         {
             return "";
         }
         else
         {
-            return levelName.GetComponent<LevelName>().getLevelName();
+            return LevelName.getLevelName();
         }
     }
     private LevelData emptyLevel()
@@ -57,7 +56,7 @@ public class LevelEditor : MonoBehaviour
         LogicField[] logicfields = new LogicField[1];
         logicfields[0] = emptyLogicField();
 
-        return new LevelData("", field, logicfields);
+        return new LevelData("", field, logicfields, new int[0]);
     }
     private LogicField emptyLogicField()
     {

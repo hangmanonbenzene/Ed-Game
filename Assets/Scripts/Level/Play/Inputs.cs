@@ -9,6 +9,8 @@ public class Inputs : MonoBehaviour
     [SerializeField] private GameObject levelLogic;
     [SerializeField] private GameObject field;
 
+    private bool[] memory = new bool[] { false, false, false, false };
+
     public bool use( int[,] player, int position, int currentField)
     {
         bool output;
@@ -23,6 +25,9 @@ public class Inputs : MonoBehaviour
             case "look":
                 output = look(player, position, currentField);
                 break;
+            case "read":
+                output = read(player, position, currentField);
+                break;
             default:
                 output = false;
                 break;
@@ -35,6 +40,8 @@ public class Inputs : MonoBehaviour
     {
         string where = levelLogic.GetComponent<LevelLogic>().GetInputs()[currentField][position].specificationOne;
         string what = levelLogic.GetComponent<LevelLogic>().GetInputs()[currentField][position].specificationTwo;
+        if (what.Equals("o.o.B"))
+            what = "wall";
         int howFar = 0;
         switch (levelLogic.GetComponent<LevelLogic>().GetInputs()[currentField][position].specificationThree)
         {
@@ -93,5 +100,31 @@ public class Inputs : MonoBehaviour
                 return false;
         }
         return false;
+    }
+    private bool read(int[,] player, int position, int currentField)
+    {
+        string which = levelLogic.GetComponent<LevelLogic>().GetInputs()[currentField][position].specificationOne;
+        switch (which)
+        {
+            case "A":
+                return memory[0];
+            case "B":
+                return memory[1];
+            case "C":
+                return memory[2];
+            case "D":
+                return memory[3];
+            default:
+                return false;
+        }
+    }
+
+    public void write(bool input, int where)
+    {
+        memory[where] = input;
+    }
+    public void resetMemory()
+    {
+        memory = new bool[] { false, false, false, false };
     }
 }

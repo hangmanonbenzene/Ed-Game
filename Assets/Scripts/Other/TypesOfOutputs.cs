@@ -8,20 +8,23 @@ public static class TypesOfOutputs
     {
         "wait",
         "walk",
-        "turn"
+        "turn",
+        "write"
     };
     private static string[][] specifications = new string[][]
     {
         new string[] { "" },
         new string[] { "" },
-        new string[] { "left", "right" }
+        new string[] { "left", "right" },
+        new string[] { "A", "B", "C", "D"}
     };
 
     public static string[][] symbols = new string[][]
     {
         new string[] { "-" },
         new string[] { "/\\" },
-        new string[] { "<", ">" }
+        new string[] { "<", ">" },
+        new string[] { "A", "B", "C", "D" }
     };
 
     public static string getSymbolForType(string type, string specification)

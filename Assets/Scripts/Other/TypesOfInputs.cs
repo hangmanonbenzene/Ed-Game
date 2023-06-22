@@ -8,43 +8,50 @@ public static class TypesOfInputs
     {
         "false",
         "true",
-        "look"
+        "look",
+        "read"
     };
     private static string[][] specificationsOne = new string[][]
     {
         new string[] { "" },
         new string[] { "" },
-        new string[] { "forwards", "right", "backwards", "left" }
+        new string[] { "forwards", "right", "backwards", "left" },
+        new string[] { "A", "B", "C", "D"}
     };
     private static string[][] specificationsTwo = new string[][]
     {
         new string[] { "" },
         new string[] { "" },
-        new string[] { "empty", "player", "goal", "wall" }
+        new string[] { "empty", "player", "goal", "wall" },
+        new string[] { "" }
     };
     private static string[][] specificationsThree = new string[][]
     {
         new string[] { "" },
         new string[] { "" },
-        new string[] { "one", "two", "three", "four" }
+        new string[] { "one", "two", "three", "four" },
+        new string[] { "" }
     };
     private static string[][] symbolOne = new string[][]
     {   
         new string[] { "0" },
         new string[] { "1" },
-        new string[] { "/\\", ">", "\\/", "<" }
+        new string[] { "/\\", ">", "\\/", "<" },
+        new string[] { "A", "B", "C", "D" }
     };
     private static string[][] symbolTwo = new string[][]
     {
         new string[] { "" },
         new string[] { "" },
-        new string[] { "L", "S", "Z", "W" }
+        new string[] { "L", "S", "Z", "W" },
+        new string[] { "" }
     };
     private static string[][] symbolThree = new string[][]
     {
         new string[] { "" },
         new string[] { "" },
-        new string[] { "1", "2", "3", "4" }
+        new string[] { "1", "2", "3", "4" },
+        new string[] { "" }
     };
 
     public static string getSymbolForType(string type, string specificationOne, string specificationTwo, string specificationThree)

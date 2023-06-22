@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class Play : MonoBehaviour
 {
+    [SerializeField] private GameObject playLevel;
+    [SerializeField] private GameObject screenHolder;
+
     [SerializeField] private GameObject playButton;
     [SerializeField] private GameObject field;
     [SerializeField] private GameObject disableLogic;
@@ -21,6 +24,10 @@ public class Play : MonoBehaviour
 
     public void onClickPlay()
     {
+        if (LevelName.getLevelName() == "")
+        {
+            return;
+        }
         if (!isPlay)
         {
             disableLogic.SetActive(true);
@@ -103,13 +110,20 @@ public class Play : MonoBehaviour
             if (wonPlayers == 0)
             {
                 lines.SetActive(false);
-                won.SetActive(true);
+                if (LevelName.getStoryMode())
+                {
+                    int level = StorySettings.getScreenNumbers(SaveSystem.getStory(LevelName.getLevelName()).Level)[1];
+                    Instantiate(playLevel.GetComponent<PlayLevel>().getPostScreen(level), screenHolder.transform);
+                }
+                else
+                    won.SetActive(true);
                 onClickPlay();
             }
         }
 
         levelLogic.GetComponent<LevelLogic>().resetLogicColor();
         field.GetComponent<LevelField>().resetField();
+        gameLogic.GetComponent<Inputs>().resetMemory();
         GetComponent<Button>().interactable = true;
         disableLogic.SetActive(false);
     }
@@ -121,5 +135,11 @@ public class Play : MonoBehaviour
     public bool getIsPlay()
     {
         return isPlay;
+    }
+
+    public void onClickBackToLevel()
+    {
+        won.SetActive(false);
+        lines.SetActive(true);
     }
 }

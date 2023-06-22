@@ -13,7 +13,8 @@ public class SaveGameCreator : MonoBehaviour
     {   
         Field[] field = findField();
         LogicField[] logicFields = findLogicFields();
-        return new LevelData(levelName, field, logicFields);
+        int[] restrictedGates = findRestrictedGates();
+        return new LevelData(levelName, field, logicFields, restrictedGates);
     }
 
     private Field[] findField()
@@ -23,5 +24,9 @@ public class SaveGameCreator : MonoBehaviour
     private LogicField[] findLogicFields()
     {
         return logicMenu.GetComponent<LogicMenu>().getLogicField();
+    }
+    private int[] findRestrictedGates()
+    {
+        return fieldMenu.GetComponent<FieldMenu>().getRestrictedGates();
     }
 }

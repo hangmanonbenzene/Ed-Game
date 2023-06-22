@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseLevel : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject lines;
+    [SerializeField] private GameObject levelEditorButton;
 
     public void onClickPause()
     {
+        levelEditorButton.GetComponent<Button>().interactable = LevelName.getStoryMode() ? false : true;
         pauseMenu.SetActive(true);
         lines.SetActive(false);
     }
@@ -25,7 +28,7 @@ public class PauseLevel : MonoBehaviour
     }
     public void onClickQuit()
     {
-        GameObject.FindGameObjectWithTag("LevelName").GetComponent<LevelName>().setMenu("Level");
+        LevelName.setMenu(LevelName.getStoryMode() ? "Story" : "Level");
         SceneManager.LoadScene(0);
     }
 }

@@ -6,23 +6,22 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject mainMenuButtons;
+    [SerializeField] private GameObject storyModeButtons;
     [SerializeField] private GameObject levelSelectionButtons;
     [SerializeField] private GameObject editorSelectionButtons;
     [SerializeField] private GameObject optionsMenuButtons;
-
-    private GameObject levelName;
 
     public enum MenuState
     {
         MAIN_MENU,
         LEVEL_SELECTION,
         EDITOR_SELECTION,
-        OPTIONS_MENU
+        OPTIONS_MENU,
+        STORY_MODE
     }
 
     void Start()
     {
-        levelName = GameObject.FindGameObjectWithTag("LevelName");
         StartCoroutine(startInMenu());
     }
 
@@ -42,19 +41,25 @@ public class MainMenu : MonoBehaviour
             case MenuState.OPTIONS_MENU:
                 optionsMenuButtons.GetComponent<OptionButtons>().setupButtons();
                 break;
+            case MenuState.STORY_MODE:
+                storyModeButtons.GetComponent<StoryMode>().setupButtons();
+                break;
         }
     }
     public void goToScene(int sceneID, string levelName)
     {
-        this.levelName.GetComponent<LevelName>().setLevelName(levelName);
+        LevelName.setLevelName(levelName);
         SceneManager.LoadScene(sceneID);
     }
 
     private IEnumerator startInMenu()
     {
         yield return null;
-        switch (levelName.GetComponent<LevelName>().getMenu())
+        switch (LevelName.getMenu())
         {
+            case "Story":
+                goToMenu(MenuState.STORY_MODE);
+                break;
             case "Level":
                 goToMenu(MenuState.LEVEL_SELECTION);
                 break;

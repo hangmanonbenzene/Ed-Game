@@ -2,44 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelName : MonoBehaviour
+public static class LevelName
 {
-    [SerializeField] private string levelName;
-    [SerializeField] private string menu;
+    private static string levelName = "";
+    private static string menu = "";
+    private static bool storyMode = false;
 
-    private static bool created = false;
-
-    private void Awake()
+    public static void setLevelName(string levelName)
     {
-        if (!created)
-        {
-            // Keep this object when loading new scenes
-            DontDestroyOnLoad(gameObject);
-            created = true;
-            levelName = "";
-            menu = "";
-        }
-        else
-        {
-            // Object has already been created, destroy the duplicate
-            Destroy(gameObject);
-        }
+        LevelName.levelName = levelName;
     }
-
-    public void setLevelName(string levelName)
-    {
-        this.levelName = levelName;
-    }
-    public string getLevelName()
+    public static string getLevelName()
     {
         return levelName;
     }
-    public void setMenu(string lastvisitedMenu)
+    public static void setMenu(string lastvisitedMenu)
     {
-        this.menu = lastvisitedMenu;
+        LevelName.menu = lastvisitedMenu;
     }
-    public string getMenu()
+    public static string getMenu()
     {
         return menu;
+    }
+    public static void setStoryMode(bool storyMode)
+    {
+        LevelName.storyMode = storyMode;
+    }
+    public static bool getStoryMode()
+    {
+        return storyMode;
     }
 }

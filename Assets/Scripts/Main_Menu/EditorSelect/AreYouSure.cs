@@ -9,37 +9,51 @@ public class AreYouSure : MonoBehaviour
     private string levelName;
     [SerializeField] private GameObject levelNameText;
     [SerializeField] private GameObject editorSelect;
+    [SerializeField] private GameObject levelSelect;
+    [SerializeField] private GameObject storySelect;
     [SerializeField] private GameObject yesButton;
     [SerializeField] private GameObject popUp;
-    public void setupAreYouSure(string levelName)
+    private bool story;
+    public void setupAreYouSure(string levelName, bool story)
     {
         this.levelName = levelName;
-        activatePopUp();
+        this.story = story;
         levelNameText.GetComponent<TextMeshProUGUI>().text = levelName;
+        popUp.SetActive(true);
         yesButton.GetComponent<Button>().Select();
     }
 
     public void onClickYes()
     {
-        SaveSystem.deleteLevel(levelName);
-        editorSelect.GetComponent<EditorSelect>().removeButton(levelName);
-        editorSelect.GetComponent<EditorSelect>().resetButtons();
-        editorSelect.GetComponent<EditorSelect>().setupButtons();
-        deactivatePopUp();
+        if (story)
+        {
+            SaveSystem.deleteStory(levelName);
+            storySelect.GetComponent<StoryMode>().removeButton(levelName);
+            storySelect.GetComponent<StoryMode>().resetButtons();
+            storySelect.GetComponent<StoryMode>().setupButtons();
+        }
+        else
+        {
+            SaveSystem.deleteLevel(levelName);
+            levelSelect.GetComponent<LevelSelect>().removeButton(levelName);
+            editorSelect.GetComponent<EditorSelect>().removeButton(levelName);
+            editorSelect.GetComponent<EditorSelect>().resetButtons();
+            editorSelect.GetComponent<EditorSelect>().setupButtons();
+        }
+        popUp.SetActive(false);
     }
     public void onClickNo()
     {
-        editorSelect.GetComponent<EditorSelect>().enableButtons();
-        StartCoroutine(editorSelect.GetComponent<EditorSelect>().SelectFirstButtonDelayed());
-        deactivatePopUp();
-    }
-
-    public void activatePopUp()
-    {
-        popUp.SetActive(true);
-    }
-    public void deactivatePopUp()
-    {
+        if (story)
+        {
+            storySelect.GetComponent<StoryMode>().enableButtons();
+            StartCoroutine(storySelect.GetComponent<StoryMode>().SelectFirstButtonDelayed());
+        }
+        else
+        {
+            editorSelect.GetComponent<EditorSelect>().enableButtons();
+            StartCoroutine(editorSelect.GetComponent<EditorSelect>().SelectFirstButtonDelayed());
+        }
         popUp.SetActive(false);
     }
 }

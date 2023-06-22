@@ -4,12 +4,14 @@ public class LevelData
     public string levelName;
     public Field[] field;
     public LogicField[] logicField;
+    public int[] restrictedGates;
 
-    public LevelData(string levelName, Field[] field, LogicField[] logicFields)
+    public LevelData(string levelName, Field[] field, LogicField[] logicFields, int[] restrictedGates)
     {
         this.levelName = levelName;
         this.field = field;
         this.logicField = logicFields;
+        this.restrictedGates = restrictedGates;
     }
 }
 

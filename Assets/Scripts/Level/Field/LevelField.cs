@@ -5,15 +5,18 @@ using UnityEngine;
 
 public class LevelField : MonoBehaviour
 {
-    [SerializeField] GameObject textures;
+    private GameObject textures;
+    [SerializeField] private GameObject texturePrefab;
 
     private GameObject[,] field;
     private Field[,] objects;
     private int[] dimensions;
     private Field[] defaultField;
+    private float size;
 
     public void setupField(Field[] field)
     {
+        textures = Instantiate(texturePrefab);
         defaultField = field;
         int x = 0;
         int y = 0;
@@ -27,15 +30,17 @@ public class LevelField : MonoBehaviour
         this.field = new GameObject[x + 1, y + 1];
         this.objects = new Field[x + 1, y + 1];
         this.dimensions = new int[2] { x + 1, y + 1 };
+        size = 980 / (x >= y ? x + 1 : y + 1);
         foreach (Field f in field)
         {
             string type = f.type;
             int spec = Array.IndexOf(TypesOfObjects.getSpecificationsForType(type), f.specification);
             GameObject texturePrefab = textures.GetComponent<FieldTextures>().getTextureForType(type, spec);
             this.field[f.xCoordinate, f.yCoordinate] = Instantiate(texturePrefab, this.transform);
-            int xCoordinate = (f.xCoordinate - 3) * 144 + (6 - x) * 72;
-            int yCoordinate = (f.yCoordinate - 3) * 144 + (6 - y) * 72;
+            float xCoordinate = -490 + size / 2 + f.xCoordinate * size + (x < y ? (y - x) * size / 2 : 0);
+            float yCoordinate = -490 + size / 2 + f.yCoordinate * size + (x > y ? (x - y) * size / 2 : 0);
             this.field[f.xCoordinate, f.yCoordinate].transform.localPosition = new Vector2(xCoordinate, yCoordinate);
+            this.field[f.xCoordinate, f.yCoordinate].GetComponent<RectTransform>().sizeDelta = new Vector2(size, size);
             objects[f.xCoordinate, f.yCoordinate] = f;
         }
     }
@@ -51,6 +56,7 @@ public class LevelField : MonoBehaviour
         int spec = Array.IndexOf(TypesOfObjects.getSpecificationsForType(field.type), field.specification);
         GameObject texturePrefab = textures.GetComponent<FieldTextures>().getTextureForType(field.type, spec);
         this.field[x, y] = Instantiate(texturePrefab, this.transform);
+        this.field[x, y].GetComponent<RectTransform>().sizeDelta = new Vector2(size, size);
         this.field[x, y].transform.localPosition = new Vector2(xCoordinate, yCoordinate);
     }
     public void moveField(int x, int y, int x1, int y1)
@@ -94,7 +100,7 @@ public class LevelField : MonoBehaviour
     public string[] getField(int x, int y)
     {
         if (x < 0 || x >= dimensions[0] || y < 0 || y >= dimensions[1])
-            return new string[2] { "empty", "" };
+            return new string[2] { "o.o.B.", "" };
         return new string[2] { objects[x, y].type, objects[x, y].specification };
     }
     public int[] getDimensions()

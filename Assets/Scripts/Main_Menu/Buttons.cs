@@ -7,6 +7,7 @@ public class Buttons : MonoBehaviour
 {
     [SerializeField] protected GameObject mainMenu;
 
+    [SerializeField] protected GameObject Button;
     [SerializeField] protected GameObject[] buttons;
     [SerializeField] protected GameObject backButton;
     [SerializeField] protected GameObject upButton;
@@ -96,14 +97,63 @@ public class Buttons : MonoBehaviour
     {
         for (int i = 0; i < buttons.Length; i++)
         {
-            if (buttons[i].GetComponent<EditorButton>() != null)
+            buttons[i].GetComponent<SelectButton>().setPosition(i);
+        }
+    }
+    public void onClickDown()
+    {
+        foreach (GameObject button in buttons)
+        {
+            RectTransform rectTransform = button.GetComponent<RectTransform>();
+            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y + 800);
+        }
+        currentScrollAmount++;
+        enableButtons();
+        if (currentScrollAmount == (buttons.Length - 1) / 4)
+        {
+            StartCoroutine(SelectFirstButtonDelayed());
+        }
+    }
+    public void onClickUp()
+    {
+        foreach (GameObject button in buttons)
+        {
+            RectTransform rectTransform = button.GetComponent<RectTransform>();
+            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y - 800);
+        }
+        currentScrollAmount--;
+        enableButtons();
+        if (currentScrollAmount == 0)
+        {
+            StartCoroutine(SelectFirstButtonDelayed());
+        }
+    }
+    public void removeButton(string levelName)
+    {
+        // Remove button from array
+        GameObject[] newButtons = new GameObject[buttons.Length - 1];
+        int j = 0;
+        int numberOfLevel = 0;
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (buttons[i].GetComponent<SelectButton>().getLevelName() != levelName)
             {
-                buttons[i].GetComponent<EditorButton>().setPosition(i);
+                newButtons[j] = buttons[i];
+                j++;
             }
-            else if (buttons[i].GetComponent<LevelButton>() != null)
+            else
             {
-                buttons[i].GetComponent<LevelButton>().setPosition(i);
+                Destroy(buttons[i]);
+                numberOfLevel = i;
             }
+        }
+        buttons = newButtons;
+
+        // Move buttons up
+        for (int i = numberOfLevel; i < buttons.Length; i++)
+        {
+            RectTransform rectTransform = buttons[i].GetComponent<RectTransform>();
+            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y + 200);
         }
     }
 }

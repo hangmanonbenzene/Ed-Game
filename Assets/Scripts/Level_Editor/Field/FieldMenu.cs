@@ -6,10 +6,11 @@ public class FieldMenu : MonoBehaviour
 {
     [SerializeField] private GameObject components;
 
-    public void setupField(Field[] field)
+    public void setupField(Field[] field, int[] restrictedGates)
     {
         components.GetComponent<TheField>().setup(field);
         components.GetComponent<TheObjects>().setup();
+        components.GetComponent<TheRestrictedGates>().setup(restrictedGates);
     }
 
     public Field[] getField()
@@ -35,5 +36,9 @@ public class FieldMenu : MonoBehaviour
         string specification = components.GetComponent<TheObjects>().getSelectedSpecification();
 
         return new string[] { type, specification };
+    }
+    public int[] getRestrictedGates()
+    {
+        return components.GetComponent<TheRestrictedGates>().getRestrictedGates();
     }
 }

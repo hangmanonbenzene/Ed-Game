@@ -100,7 +100,7 @@ public class LevelField : MonoBehaviour
     public string[] getField(int x, int y)
     {
         if (x < 0 || x >= dimensions[0] || y < 0 || y >= dimensions[1])
-            return new string[2] { "o.o.B.", "" };
+            return new string[2] { "wall", "" };
         return new string[2] { objects[x, y].type, objects[x, y].specification };
     }
     public int[] getDimensions()

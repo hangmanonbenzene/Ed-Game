@@ -93,9 +93,9 @@ public class Inputs : MonoBehaviour
                     break;
             }
             string tile = field.GetComponent<LevelField>().getField(x, y)[0];
-            if (tile.Equals(what) || (what.Equals("wall") && tile.Equals("o.o.B.")))
+            if (tile.Equals(what))
                 return true;
-            if (tile.Equals("wall") || tile.Equals("o.o.B."))
+            if (tile.Equals("wall"))
                 return false;
         }
         return false;

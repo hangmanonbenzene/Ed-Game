@@ -22,10 +22,8 @@ public class FieldTextures : MonoBehaviour
                 return goal[spec];
             case "wall":
                 return wall[spec];
-            case "o.o.B.":
-                return outOfBounds[spec];
             default:
-                return null;
+                return outOfBounds[0];
         }
     }
 }

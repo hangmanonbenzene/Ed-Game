@@ -9,14 +9,12 @@ public static class TypesOfObjects
         "empty",
         "player",
         "goal",
-        "wall",
-        "o.o.B."
+        "wall"
     };
     private static string[][] specifications = new string[][]
     {
         new string[]{ "" },
         new string[]{ "up", "right", "down", "left" },
-        new string[]{ "" },
         new string[]{ "" },
         new string[]{ "" }
     };
@@ -25,7 +23,6 @@ public static class TypesOfObjects
         new string[]{ "" },
         new string[]{ "/\\", ">", "\\/", "<" },
         new string[]{ "$" },
-        new string[]{ "#" },
         new string[]{ "X" }
     };
 
@@ -40,6 +37,8 @@ public static class TypesOfObjects
     public static string[] getSpecificationsForType(string type)
     {
         int typeIndex = System.Array.IndexOf(types, type);
+        if (typeIndex < 0 || typeIndex >= types.Length)
+            return new string[] { "" };
         return specifications[typeIndex];
     }
     public static string[] getTypes()

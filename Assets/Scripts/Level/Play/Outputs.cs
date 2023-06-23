@@ -79,16 +79,18 @@ public class Outputs : MonoBehaviour
                 y = player[0, 1];
                 break;
         }
-        if (!field.GetComponent<LevelField>().getField(x, y)[0].Equals("player") &&
-            !field.GetComponent<LevelField>().getField(x, y)[0].Equals("wall") &&
-            !field.GetComponent<LevelField>().getField(x, y)[0].Equals("o.o.B.") &&
-            !field.GetComponent<LevelField>().getField(x, y)[0].Equals("goal"))
-            field.GetComponent<LevelField>().moveField(player[0, 0], player[0, 1], x, y);
-        else if (field.GetComponent<LevelField>().getField(x, y)[0].Equals("goal"))
+        string[] tile = field.GetComponent<LevelField>().getField(x, y);
+        if (isWalkable(tile))
         {
-            //field.GetComponent<LevelField>().setField(player[0, 0], player[0, 1], new Field(player[0, 0], player[0, 1], "empty", ""));
             field.GetComponent<LevelField>().moveField(player[0, 0], player[0, 1], x, y);
-            play.GetComponent<Play>().wonPlayer();
+            if (isWin(tile))
+            {
+                play.GetComponent<Play>().wonPlayer();
+            }
+        }
+        else if (isKill(tile))
+        {
+            field.GetComponent<LevelField>().setField(player[0, 0], player[0, 1], new Field(player[0, 0], player[0, 1], "empty", ""));
         }
     }
     private void turn(int[,] player, int position, int currentField)
@@ -134,5 +136,27 @@ public class Outputs : MonoBehaviour
                 Debug.Log("Error: There is no memory here.");
                 break;
         }
+    }
+
+    private bool isWalkable(string[] tile)
+    {
+        if (tile[0].Equals("empty") || tile[1].Equals("fake") || tile[0].Equals("goal"))
+            return true;
+        else
+            return false;
+    }
+    private bool isWin(string[] tile)
+    {
+        if (tile[0].Equals("goal"))
+            return true;
+        else
+            return false;
+    }
+    private bool isKill(string[] tile)
+    {
+        if (tile[0].Equals("hole") || tile[1].Equals("barbed"))
+            return true;
+        else
+            return false;
     }
 }

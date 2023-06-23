@@ -8,6 +8,7 @@ public class FieldTextures : MonoBehaviour
     [SerializeField] private GameObject[] player;
     [SerializeField] private GameObject[] goal;
     [SerializeField] private GameObject[] wall;
+    [SerializeField] private GameObject[] hole;
     [SerializeField] private GameObject[] outOfBounds;
 
     public GameObject getTextureForType(string type, int spec)
@@ -22,6 +23,8 @@ public class FieldTextures : MonoBehaviour
                 return goal[spec];
             case "wall":
                 return wall[spec];
+            case "hole":
+                return hole[spec];
             default:
                 return outOfBounds[0];
         }

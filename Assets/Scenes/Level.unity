@@ -898,7 +898,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1738071836}
+      - m_Target: {fileID: 1187158369}
         m_TargetAssemblyTypeName: TimePerTick, Assembly-CSharp
         m_MethodName: onClickPlus
         m_Mode: 1
@@ -3524,6 +3524,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1187158367}
   - component: {fileID: 1187158368}
+  - component: {fileID: 1187158369}
   m_Layer: 5
   m_Name: Pause
   m_TagString: Untagged
@@ -3568,6 +3569,20 @@ MonoBehaviour:
   pauseMenu: {fileID: 1226910333}
   lines: {fileID: 916552959}
   levelEditorButton: {fileID: 865768477}
+--- !u!114 &1187158369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187158366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f8f76a01bd1384890570a28a86aac8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  play: {fileID: 1695868268}
+  showValue: {fileID: 2030047431}
 --- !u!1 &1226910333
 GameObject:
   m_ObjectHideFlags: 0
@@ -3729,7 +3744,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1738071836}
+      - m_Target: {fileID: 1187158369}
         m_TargetAssemblyTypeName: TimePerTick, Assembly-CSharp
         m_MethodName: onClickMinus
         m_Mode: 1
@@ -5762,7 +5777,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1738071835}
-  - component: {fileID: 1738071836}
   m_Layer: 5
   m_Name: Time
   m_TagString: Untagged
@@ -5794,20 +5808,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1738071836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1738071834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f8f76a01bd1384890570a28a86aac8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  play: {fileID: 1695868268}
-  showValue: {fileID: 2030047431}
 --- !u!1 &1774247466
 GameObject:
   m_ObjectHideFlags: 0

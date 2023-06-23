@@ -9,13 +9,15 @@ public static class TypesOfObjects
         "empty",
         "player",
         "goal",
-        "wall"
+        "wall",
+        "hole"
     };
     private static string[][] specifications = new string[][]
     {
         new string[]{ "" },
         new string[]{ "up", "right", "down", "left" },
         new string[]{ "" },
+        new string[]{ "", "fake", "barbed" },
         new string[]{ "" }
     };
     public static string[][] symbols = new string[][]
@@ -23,7 +25,8 @@ public static class TypesOfObjects
         new string[]{ "" },
         new string[]{ "/\\", ">", "\\/", "<" },
         new string[]{ "$" },
-        new string[]{ "X" }
+        new string[]{ "X", "F", "#" },
+        new string[]{ "O" }
     };
 
     public static string getSymbolForType(string type, string specification)

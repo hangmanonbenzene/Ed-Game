@@ -16,11 +16,13 @@ public class Play : MonoBehaviour
     [SerializeField] private GameObject gameLogic;
     [SerializeField] private GameObject won;
     [SerializeField] private GameObject lines;
+    [SerializeField] private GameObject pauseButton;
 
     private bool isPlay = false;
+    private bool isPause = false;
     private int wonPlayers;
 
-    private readonly float time = 0.5f;
+    private float time = 0.5f;
 
     public void onClickPlay()
     {
@@ -30,6 +32,7 @@ public class Play : MonoBehaviour
         }
         if (!isPlay)
         {
+            pauseButton.GetComponent<Button>().interactable = true;
             disableLogic.SetActive(true);
             isPlay = true;
             playButton.GetComponentInChildren<TextMeshProUGUI>().text = "Stop";
@@ -37,9 +40,25 @@ public class Play : MonoBehaviour
         }
         else
         {
+            pauseButton.GetComponent<Button>().interactable = false;
+            pauseButton.GetComponentInChildren<TextMeshProUGUI>().text = "Pause";
+            isPause = false;
             GetComponent<Button>().interactable = false;
             isPlay = false;
             playButton.GetComponentInChildren<TextMeshProUGUI>().text = "Start";
+        }
+    }
+    public void onCLickPause()
+    {
+        if (!isPause)
+        {
+            isPause = true;
+            pauseButton.GetComponentInChildren<TextMeshProUGUI>().text = "Weiter";
+        }
+        else
+        {
+            isPause = false;
+            pauseButton.GetComponentInChildren<TextMeshProUGUI>().text = "Pause";
         }
     }
 
@@ -118,6 +137,10 @@ public class Play : MonoBehaviour
                 else
                     won.SetActive(true);
                 onClickPlay();
+            }
+            while (isPause)
+            {
+                yield return null;
             }
         }
 

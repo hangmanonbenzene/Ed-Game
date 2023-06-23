@@ -40,8 +40,6 @@ public class Inputs : MonoBehaviour
     {
         string where = levelLogic.GetComponent<LevelLogic>().GetInputs()[currentField][position].specificationOne;
         string what = levelLogic.GetComponent<LevelLogic>().GetInputs()[currentField][position].specificationTwo;
-        if (what.Equals("o.o.B"))
-            what = "wall";
         int howFar = 0;
         switch (levelLogic.GetComponent<LevelLogic>().GetInputs()[currentField][position].specificationThree)
         {
@@ -94,9 +92,10 @@ public class Inputs : MonoBehaviour
                 default:
                     break;
             }
-            if (field.GetComponent<LevelField>().getField(x, y)[0] == what)
+            string tile = field.GetComponent<LevelField>().getField(x, y)[0];
+            if (tile.Equals(what) || (what.Equals("wall") && tile.Equals("o.o.B.")))
                 return true;
-            if (field.GetComponent<LevelField>().getField(x, y)[0] == "wall")
+            if (tile.Equals("wall") || tile.Equals("o.o.B."))
                 return false;
         }
         return false;

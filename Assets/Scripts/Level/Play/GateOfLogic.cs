@@ -16,13 +16,6 @@ public class GateOfLogic : MonoBehaviour
         else
             values = new bool[] { values[0] };
 
-        if (levelLogic.GetComponent<LevelLogic>().GetLogicGates(row)[currentField][position].type == "empty")
-        {
-            if (play.GetComponent<Play>().getIsPlay())
-                play.GetComponent<Play>().onClickPlay();
-            return false;
-        }
-
         bool output = levelLogic.GetComponent<LevelLogic>().GetLogicGates(row)[currentField][position].type switch
         {
             "buffer" => values[0],
@@ -36,6 +29,11 @@ public class GateOfLogic : MonoBehaviour
             _ => false,
         };
         levelLogic.GetComponent<LevelLogic>().colorLogic(row, position, output, values);
+        if (levelLogic.GetComponent<LevelLogic>().GetLogicGates(row)[currentField][position].type == "empty")
+        {
+            if (play.GetComponent<Play>().getIsPlay())
+                play.GetComponent<Play>().onClickPlay();
+        }
         return output;
     }
 }

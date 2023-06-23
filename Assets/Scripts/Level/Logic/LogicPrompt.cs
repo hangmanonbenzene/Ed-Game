@@ -247,6 +247,7 @@ public class LogicPrompt : MonoBehaviour
                     "wall" => "eine <color=#0000FF>Wand</color>",
                     "player" => "einen <color=#0000FF>Spieler</color>",
                     "goal" => "ein <color=#0000FF>Ziel</color>",
+                    "hole" => "ein <color=#0000FF>Loch</color>",
                     _ => "-",
                 };
                 text[2] = spec3 switch

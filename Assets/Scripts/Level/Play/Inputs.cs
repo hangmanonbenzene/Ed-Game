@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.AssemblyQualifiedNameParser;
 using UnityEngine;
 
 public class Inputs : MonoBehaviour
@@ -92,10 +90,10 @@ public class Inputs : MonoBehaviour
                 default:
                     break;
             }
-            string tile = field.GetComponent<LevelField>().getField(x, y)[0];
-            if (tile.Equals(what))
+            string[] tile = field.GetComponent<LevelField>().getField(x, y);
+            if (tile[0].Equals(what))
                 return true;
-            if (tile.Equals("wall"))
+            if (!isSeetrough(tile))
                 return false;
         }
         return false;
@@ -125,5 +123,12 @@ public class Inputs : MonoBehaviour
     public void resetMemory()
     {
         memory = new bool[] { false, false, false, false };
+    }
+
+    private bool isSeetrough(string[] type)
+    {
+        if (type[0].Equals("empty") || type[0].Equals("goal") || type[0].Equals("hole"))
+            return true;
+        return false;
     }
 }

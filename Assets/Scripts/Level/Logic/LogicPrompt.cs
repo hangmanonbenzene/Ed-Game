@@ -251,10 +251,10 @@ public class LogicPrompt : MonoBehaviour
                 };
                 text[2] = spec3 switch
                 {
-                    "one" => "<color=#0000FF>einem</color> Feld",
-                    "two" => "<color=#0000FF>zwei</color> Feldern",
-                    "three" => "<color=#0000FF>drei</color> Feldern",
-                    "four" => "<color=#0000FF>vier</color> Feldern",
+                    "one" => "<color=#0000FF>einem Feld</color>",
+                    "two" => "<color=#0000FF>zwei Feldern</color>",
+                    "three" => "<color=#0000FF>drei Feldern</color>",
+                    "four" => "<color=#0000FF>vier Feldern</color>",
                     _ => "-",
                 };
                 break;

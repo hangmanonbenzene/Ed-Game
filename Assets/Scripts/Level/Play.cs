@@ -22,7 +22,7 @@ public class Play : MonoBehaviour
     private bool isPause = false;
     private int wonPlayers;
 
-    private float time = 0.5f;
+    private float time;
 
     public void onClickPlay()
     {
@@ -164,5 +164,9 @@ public class Play : MonoBehaviour
     {
         won.SetActive(false);
         lines.SetActive(true);
+    }
+    public void setTime(float time)
+    {
+        this.time = time;
     }
 }

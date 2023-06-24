@@ -9,6 +9,7 @@ public static class TypesOfOutputs
         "wait",
         "walk",
         "turn",
+        "jump",
         "write"
     };
     private static string[][] specifications = new string[][]
@@ -16,6 +17,7 @@ public static class TypesOfOutputs
         new string[] { "" },
         new string[] { "" },
         new string[] { "left", "right" },
+        new string[] { "" },
         new string[] { "A", "B", "C", "D"}
     };
 
@@ -24,6 +26,7 @@ public static class TypesOfOutputs
         new string[] { "-" },
         new string[] { "/\\" },
         new string[] { "<", ">" },
+        new string[] { "o" },
         new string[] { "A", "B", "C", "D" }
     };
 

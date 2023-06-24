@@ -17,7 +17,7 @@ public static class TypesOfObjects
         new string[]{ "" },
         new string[]{ "up", "right", "down", "left" },
         new string[]{ "" },
-        new string[]{ "", "fake", "barbed" },
+        new string[]{ "", "fake" },
         new string[]{ "" }
     };
     public static string[][] symbols = new string[][]
@@ -25,7 +25,7 @@ public static class TypesOfObjects
         new string[]{ "" },
         new string[]{ "/\\", ">", "\\/", "<" },
         new string[]{ "$" },
-        new string[]{ "X", "F", "#" },
+        new string[]{ "X", "F" },
         new string[]{ "O" }
     };
 

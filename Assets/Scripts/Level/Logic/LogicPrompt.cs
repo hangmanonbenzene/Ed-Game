@@ -221,6 +221,9 @@ public class LogicPrompt : MonoBehaviour
             case "turn":
                 text.GetComponent<TMPro.TextMeshProUGUI>().text = "Der Spieler <color=#0000FF>dreht</color> sich nach <color=#0000FF>" + (spec == "left" ? "links" : "rechts") + "</color>.";
                 break;
+            case "jump":
+                text.GetComponent<TMPro.TextMeshProUGUI>().text = "Der Spieler <color=#0000FF>springt</color> über das nächste Feld.";
+                break;
             case "write":
                 text.GetComponent<TMPro.TextMeshProUGUI>().text = "<color=#0000FF>Schreibt</color> den Wert des <color=#0000FF>Inputs</color> in die <color=#0000FF>Speicherzelle " + spec + "</color>.<br>Speicherzellen beginnen mit dem Wert <color=#FF0000>falsch</color>.";
                 break;

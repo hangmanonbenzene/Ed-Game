@@ -56,7 +56,6 @@ MonoBehaviour:
   wall:
   - {fileID: 4355187621625456901, guid: 1ba3fec022b8ec14b95fa03e9f779b50, type: 3}
   - {fileID: 4355187621625456901, guid: 1ba3fec022b8ec14b95fa03e9f779b50, type: 3}
-  - {fileID: 4355187621625456901, guid: 1ba3fec022b8ec14b95fa03e9f779b50, type: 3}
   hole:
   - {fileID: 9067994247297685726, guid: 914968715e5a70f4d898e631a4b66f37, type: 3}
   outOfBounds:

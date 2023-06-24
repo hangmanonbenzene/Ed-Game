@@ -20,6 +20,7 @@ public class Play : MonoBehaviour
 
     private bool isPlay = false;
     private bool isPause = false;
+    private bool isWon = false;
     private int wonPlayers;
 
     private float time;
@@ -80,6 +81,7 @@ public class Play : MonoBehaviour
         int outputsInField = levelLogic.GetComponent<LevelLogic>().GetOutputs()[currentField].GetLength(0);
         int currentPosition = 0;
         wonPlayers = players;
+        isWon = false;
 
         while (isPlay)
         {
@@ -121,12 +123,12 @@ public class Play : MonoBehaviour
             }
             for (float i = 0; i < time; i += Time.deltaTime)
             {
-                if(isPlay)
+                if(isPlay || isWon)
                     yield return null;
                 else
                     break;
             }
-            if (wonPlayers == 0)
+            if (isWon)
             {
                 lines.SetActive(false);
                 if (LevelName.getStoryMode())
@@ -136,7 +138,6 @@ public class Play : MonoBehaviour
                 }
                 else
                     won.SetActive(true);
-                onClickPlay();
             }
             while (isPause)
             {
@@ -154,6 +155,11 @@ public class Play : MonoBehaviour
     public void wonPlayer()
     {
         wonPlayers--;
+        if (wonPlayers == 0)
+        {
+            isWon = true;
+        }
+        onClickPlay();
     }
     public bool getIsPlay()
     {

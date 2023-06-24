@@ -22,7 +22,7 @@ public static class TypesOfInputs
     {
         new string[] { "" },
         new string[] { "" },
-        new string[] { "empty", "player", "goal", "wall", "hole" },
+        new string[] { "empty", "player", "goal", "wall", "hole", "switch" },
         new string[] { "" }
     };
     private static string[][] specificationsThree = new string[][]
@@ -43,7 +43,7 @@ public static class TypesOfInputs
     {
         new string[] { "" },
         new string[] { "" },
-        new string[] { "N", "S", "Z", "W", "L" },
+        new string[] { "N", "S", "Z", "W", "L", "D" },
         new string[] { "" }
     };
     private static string[][] symbolThree = new string[][]

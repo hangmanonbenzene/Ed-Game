@@ -95,6 +95,8 @@ public class Outputs : MonoBehaviour
         else if (isWalkable(tile))
         {
             field.GetComponent<LevelField>().moveField(player[0, 0], player[0, 1], x, y);
+            if (isTrigger(tile))
+                trigger();
         }
     }
     private void turn(int[,] player, int position, int currentField)
@@ -180,6 +182,8 @@ public class Outputs : MonoBehaviour
                 {
                     field.GetComponent<LevelField>().setField(x, y, new Field(x, y, "empty", ""));
                 }
+                if (isTrigger(nextNextTile))
+                    trigger();
             }
             else if (isKill(nextTile))
             {
@@ -188,6 +192,8 @@ public class Outputs : MonoBehaviour
             else if (isWalkable(nextTile))
             {
                 field.GetComponent<LevelField>().moveField(player[0, 0], player[0, 1], x, y);
+                if (isTrigger(nextTile))
+                    trigger();
             }
         }
     }
@@ -216,13 +222,13 @@ public class Outputs : MonoBehaviour
 
     private bool isWalkable(string[] tile)
     {
-        if (tile[0].Equals("empty") || tile[1].Equals("fake"))
+        if (tile[0].Equals("empty") || tile[0].Equals("switch") || tile[1].Equals("fake"))
             return true;
         return false;
     }
     private bool isJumpable(string[] tile)
     {
-        if (tile[0].Equals("empty") || tile[0].Equals("hole") || tile[1].Equals("fake"))
+        if (tile[0].Equals("empty") || tile[0].Equals("hole") || tile[0].Equals("switch") || tile[1].Equals("fake"))
             return true;
         return false;
     }
@@ -237,5 +243,31 @@ public class Outputs : MonoBehaviour
         if (tile[0].Equals("hole"))
             return true;
         return false;
+    }
+    private bool isTrigger(string[] tile)
+    {
+        if (tile[0].Equals("switch"))
+            return true;
+        return false;
+    }
+
+    private void trigger()
+    {
+        int[] dim = field.GetComponent<LevelField>().getDimensions();
+        for (int i = 0; i < dim[0]; i++)
+        {
+            for (int j = 0; j < dim[1]; j++)
+            {
+                string[] tile = field.GetComponent<LevelField>().getField(i, j);
+                if (tile[1].Equals("toEmpty"))
+                {
+                    field.GetComponent<LevelField>().setField(i, j, new Field(i, j, "empty", ""));
+                }
+                else if (tile[1].Equals("toWall"))
+                {
+                    field.GetComponent<LevelField>().setField(i, j, new Field(i, j, "wall", ""));
+                }
+            }
+        }
     }
 }

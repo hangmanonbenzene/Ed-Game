@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   empty:
   - {fileID: 7743646331338628749, guid: 06ca514d5022331438a24f67bf061a7b, type: 3}
+  - {fileID: 7743646331338628749, guid: 06ca514d5022331438a24f67bf061a7b, type: 3}
   player:
   - {fileID: 7743646331338628749, guid: 1152e727d96cc824faa8350b28ec6cef, type: 3}
   - {fileID: 7743646331338628749, guid: cfc5d40aba83a5f4fa4e19b422969958, type: 3}
@@ -56,7 +57,10 @@ MonoBehaviour:
   wall:
   - {fileID: 4355187621625456901, guid: 1ba3fec022b8ec14b95fa03e9f779b50, type: 3}
   - {fileID: 4355187621625456901, guid: 1ba3fec022b8ec14b95fa03e9f779b50, type: 3}
+  - {fileID: 4355187621625456901, guid: 1ba3fec022b8ec14b95fa03e9f779b50, type: 3}
   hole:
   - {fileID: 9067994247297685726, guid: 914968715e5a70f4d898e631a4b66f37, type: 3}
+  switch_:
+  - {fileID: 4926835118916104541, guid: 240f0394bbf20964aa5b41a45052084e, type: 3}
   outOfBounds:
   - {fileID: 9130732897296030122, guid: a325c68ae7ed37b42a47b69a4520ebac, type: 3}

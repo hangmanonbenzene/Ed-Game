@@ -127,7 +127,7 @@ public class Inputs : MonoBehaviour
 
     private bool isSeetrough(string[] type)
     {
-        if (type[0].Equals("empty") || type[0].Equals("goal") || type[0].Equals("hole"))
+        if (type[0].Equals("empty") || type[0].Equals("goal") || type[0].Equals("hole") || type[0].Equals("switch"))
             return true;
         return false;
     }

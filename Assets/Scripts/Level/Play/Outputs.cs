@@ -182,6 +182,11 @@ public class Outputs : MonoBehaviour
                 {
                     field.GetComponent<LevelField>().setField(x, y, new Field(x, y, "empty", ""));
                 }
+                else if (nextTile[1].Equals("trigger"))
+                {
+                    field.GetComponent<LevelField>().setField(x, y, new Field(x, y, "empty", ""));
+                    trigger();
+                }
                 if (isTrigger(nextNextTile))
                     trigger();
             }
@@ -222,13 +227,13 @@ public class Outputs : MonoBehaviour
 
     private bool isWalkable(string[] tile)
     {
-        if (tile[0].Equals("empty") || tile[0].Equals("switch") || tile[1].Equals("fake"))
+        if (tile[0].Equals("empty") || tile[0].Equals("switch") || tile[1].Equals("fake") || tile[1].Equals("trigger"))
             return true;
         return false;
     }
     private bool isJumpable(string[] tile)
     {
-        if (tile[0].Equals("empty") || tile[0].Equals("hole") || tile[0].Equals("switch") || tile[1].Equals("fake"))
+        if (tile[0].Equals("empty") || tile[0].Equals("hole") || tile[0].Equals("switch") || tile[1].Equals("fake") || tile[1].Equals("trigger"))
             return true;
         return false;
     }
@@ -246,7 +251,7 @@ public class Outputs : MonoBehaviour
     }
     private bool isTrigger(string[] tile)
     {
-        if (tile[0].Equals("switch"))
+        if (tile[0].Equals("switch")|| tile[1].Equals("trigger"))
             return true;
         return false;
     }
@@ -266,6 +271,14 @@ public class Outputs : MonoBehaviour
                 else if (tile[1].Equals("toWall"))
                 {
                     field.GetComponent<LevelField>().setField(i, j, new Field(i, j, "wall", ""));
+                }
+                else if (tile[1].Equals("toFake"))
+                {
+                    field.GetComponent<LevelField>().setField(i, j, new Field(i, j, "wall", "fake"));
+                }
+                else if (tile[1].Equals("toGoal"))
+                {
+                    field.GetComponent<LevelField>().setField(i, j, new Field(i, j, "goal", ""));
                 }
             }
         }

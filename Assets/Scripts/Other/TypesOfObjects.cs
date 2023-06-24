@@ -18,7 +18,7 @@ public static class TypesOfObjects
         new string[]{ "", "toWall" },
         new string[]{ "up", "right", "down", "left" },
         new string[]{ "" },
-        new string[]{ "", "fake", "toEmpty" },
+        new string[]{ "", "fake", "trigger", "toEmpty", "toGoal", "toFake" },
         new string[]{ "" },
         new string[]{ "" }
     };
@@ -27,7 +27,7 @@ public static class TypesOfObjects
         new string[]{ "", "eX" },
         new string[]{ "/\\", ">", "\\/", "<" },
         new string[]{ "$" },
-        new string[]{ "X", "F", "xE" },
+        new string[]{ "X", "F", "FT", "xE", "xG", "xF" },
         new string[]{ "O" },
         new string[]{ "_" }
     };

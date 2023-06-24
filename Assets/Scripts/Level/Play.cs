@@ -73,7 +73,7 @@ public class Play : MonoBehaviour
                 break;
         }
 
-        int[,] player = field.GetComponent<LevelField>().getPlayerPositions();
+        int[,] player = field.GetComponent<LevelField>().getAll("player");
         int players = player.GetLength(0);
         int currentPlayer = 0;
         int logicFields = levelLogic.GetComponent<LevelLogic>().GetOutputs().GetLength(0);
@@ -93,6 +93,11 @@ public class Play : MonoBehaviour
                 gameLogic.GetComponent<Outputs>().use(
                     new int[,] { { player[currentPlayer, 0], player[currentPlayer, 1], player[currentPlayer, 2] } }, 
                     currentPosition, currentField);
+
+                int[,] mummies = field.GetComponent<LevelField>().getAll("mummy");
+                for (int i = 0; i < mummies.GetLength(0); i++)
+                    gameLogic.GetComponent<Outputs>().walkMummy(new int[,] { { mummies[i, 0], mummies[i, 1], mummies[i, 2] } });
+
                 if (currentPlayer == players - 1)
                 {
                     if (currentPosition == outputsInField - 1)
@@ -112,7 +117,7 @@ public class Play : MonoBehaviour
                     {
                         currentPosition++;
                     }
-                    player = field.GetComponent<LevelField>().getPlayerPositions();
+                    player = field.GetComponent<LevelField>().getAll("player");
                     players = player.GetLength(0);
                     currentPlayer = 0;
                 }

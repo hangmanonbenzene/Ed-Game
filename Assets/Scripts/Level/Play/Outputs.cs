@@ -38,6 +38,9 @@ public class Outputs : MonoBehaviour
                 case "jump":
                     jump(player, position, currentField);
                     break;
+                case "attack":
+                    attack(player, position, currentField);
+                    break;
                 case "write":
                     write(player, position, currentField, true);
                     break;
@@ -201,6 +204,40 @@ public class Outputs : MonoBehaviour
                     trigger();
             }
         }
+        else if (isKill(nextTile))
+        {
+            field.GetComponent<LevelField>().setField(player[0, 0], player[0, 1], new Field(player[0, 0], player[0, 1], "empty", ""));
+        }
+    }
+    private void attack(int[,] player, int position, int currentField)
+    {
+        int x, y;
+        switch (player[0, 2])
+        {
+            case 0:
+                x = player[0, 0];
+                y = player[0, 1] + 1;
+                break;
+            case 1:
+                x = player[0, 0] + 1;
+                y = player[0, 1];
+                break;
+            case 2:
+                x = player[0, 0];
+                y = player[0, 1] - 1;
+                break;
+            case 3:
+                x = player[0, 0] - 1;
+                y = player[0, 1];
+                break;
+            default:
+                x = player[0, 0];
+                y = player[0, 1];
+                break;
+        }
+        string[] nextTile = field.GetComponent<LevelField>().getField(x, y);
+        if (nextTile[0].Equals("mummy"))
+            field.GetComponent<LevelField>().setField(x, y, new Field(x, y, "empty", ""));
     }
     private void write(int[,] player, int position, int currentField, bool value)
     {
@@ -245,7 +282,7 @@ public class Outputs : MonoBehaviour
     }
     private bool isKill(string[] tile)
     {
-        if (tile[0].Equals("hole"))
+        if (tile[0].Equals("hole") || tile[0].Equals("mummy"))
             return true;
         return false;
     }
@@ -282,5 +319,66 @@ public class Outputs : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void walkMummy(int[,] mummy)
+    {
+        int x, y;
+        switch (mummy[0, 2])
+        {
+            case 0:
+                x = mummy[0, 0];
+                y = mummy[0, 1] + 1;
+                break;
+            case 1:
+                x = mummy[0, 0] + 1;
+                y = mummy[0, 1];
+                break;
+            case 2:
+                x = mummy[0, 0];
+                y = mummy[0, 1] - 1;
+                break;
+            case 3:
+                x = mummy[0, 0] - 1;
+                y = mummy[0, 1];
+                break;
+            default:
+                x = mummy[0, 0];
+                y = mummy[0, 1];
+                break;
+        }
+        string[] tile = field.GetComponent<LevelField>().getField(x, y);
+        if (isWalkableMummy(tile))
+        {
+            field.GetComponent<LevelField>().moveField(mummy[0, 0], mummy[0, 1], x, y);
+            if (isTrigger(tile))
+                trigger();
+        }
+        else if (isKillMummy(tile))
+        {
+            field.GetComponent<LevelField>().setField(mummy[0, 0], mummy[0, 1], new Field(mummy[0, 0], mummy[0, 1], "empty", ""));
+        }
+        else
+        {
+            string spec = TypesOfObjects.getSpecificationsForType("mummy")[(mummy[0, 2] + 2) % 4];
+            field.GetComponent<LevelField>().setField(mummy[0, 0], mummy[0, 1], new Field(mummy[0, 0], mummy[0, 1], "mummy", spec));
+        }
+    }
+    private bool isWalkableMummy(string[] tile)
+    {
+        if (tile[0].Equals("empty") || 
+            tile[0].Equals("switch") || 
+            tile[1].Equals("fake") || 
+            tile[1].Equals("trigger") || 
+            tile[0].Equals("goal") ||
+            tile[0].Equals("player"))
+            return true;
+        return false;
+    }
+    private bool isKillMummy(string[] tile)
+    {
+        if (tile[0].Equals("hole"))
+            return true;
+        return false;
     }
 }

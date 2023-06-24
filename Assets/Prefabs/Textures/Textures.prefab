@@ -65,5 +65,10 @@ MonoBehaviour:
   - {fileID: 9067994247297685726, guid: 914968715e5a70f4d898e631a4b66f37, type: 3}
   switch_:
   - {fileID: 4926835118916104541, guid: 240f0394bbf20964aa5b41a45052084e, type: 3}
+  mummy:
+  - {fileID: 6555749322194611851, guid: 7a4d03a8c274c3044a2cd676fe4cb894, type: 3}
+  - {fileID: 1015609588156142208, guid: 39d4dbadaed81a945a93bf13f6da0849, type: 3}
+  - {fileID: 6884613963379721476, guid: 677995049d44d0c4899f08b36785db60, type: 3}
+  - {fileID: 12707206763062599, guid: a31466f6d6d374447adcbd92699498a5, type: 3}
   outOfBounds:
   - {fileID: 9130732897296030122, guid: a325c68ae7ed37b42a47b69a4520ebac, type: 3}

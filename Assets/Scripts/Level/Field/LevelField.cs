@@ -75,19 +75,19 @@ public class LevelField : MonoBehaviour
             }
         }
     }
-    public int[,] getPlayerPositions()
+    public int[,] getAll(string type)
     {
         int count = 0;
         foreach (Field field in objects)
         {
-            if (field.type == "player")
+            if (field.type == type)
                 count++;
         }
         int[,] positions = new int[count, 3];
         int i = 0;
         foreach (Field field in objects)
         {
-            if (field.type == "player")
+            if (field.type == type)
             {
                 positions[i, 0] = field.xCoordinate;
                 positions[i, 1] = field.yCoordinate;

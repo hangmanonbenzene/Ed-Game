@@ -53,8 +53,6 @@ public class TheField : MonoBehaviour
                 int x = i;
                 int y = j;
                 tiles[i, j].GetComponent<Tile>().setValues(gameObject, x, y);
-                //tiles[i, j].GetComponent<Button>().onClick.AddListener(() => onClickTile(x, y));
-                tiles[i, j].GetComponent<Tile>().setImagePrefabs(texturePrefabs);
             }
         }
     }

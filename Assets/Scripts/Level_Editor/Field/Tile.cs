@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -12,8 +13,6 @@ public class Tile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
     private int xCoordinate;
     private int yCoordinate;
 
-    private GameObject image;
-    private GameObject imagePrefabs;
     private GameObject theField;
 
     protected static bool isPressed = false;
@@ -23,9 +22,7 @@ public class Tile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
         this.type = type;
         this.specification = Array.IndexOf(TypesOfObjects.getSpecificationsForType(type), specification);
 
-        if (image != null)
-            Destroy(image);
-        image = Instantiate(imagePrefabs.GetComponent<FieldTextures>().getTextureForType(type, this.specification), this.transform);
+        GetComponentInChildren<TextMeshProUGUI>().text = TypesOfObjects.getSymbolForType(type, specification);
         setImageSize();
     }
     public string getType()
@@ -36,14 +33,9 @@ public class Tile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
     {
         return TypesOfObjects.getSpecificationsForType(type)[specification];
     }
-    public void setImagePrefabs(GameObject imagePrefabs)
-    {
-        this.imagePrefabs = imagePrefabs;
-    }
     public void setImageSize()
     {
-        if (image != null)
-            image.GetComponent<RectTransform>().sizeDelta = this.GetComponent<RectTransform>().sizeDelta;
+        GetComponent<RectTransform>().sizeDelta = this.GetComponent<RectTransform>().sizeDelta;
     }
     public void setValues(GameObject field, int x, int y)
     {

@@ -32,6 +32,8 @@ public class LevelLogic : MonoBehaviour
     private bool[][][] permanentGates;
     private int[] restrictedGates;
 
+    int[] clickedButton;
+
     private readonly int maxXCoordinate = 300;
     private readonly int minXCoordinate = -300;
     private readonly int maxYCoordinate = 340;
@@ -137,9 +139,12 @@ public class LevelLogic : MonoBehaviour
         currentField = number;
         selectChooseButton(number);
         setField(number);
+        clickedButton = new int[] { -1, -1 };
+        selectButton();
     }
     private void onClickButton(int row, int number)
     {
+        clickedButton = new int[] { row, number };
         selectedButton = new int[] { row, number };
         int numberOfRows = 0;
         numberOfRows += (rowOne[currentField].Length > 0) ? 1 : 0;
@@ -723,6 +728,66 @@ public class LevelLogic : MonoBehaviour
             for (int j = 0; j < outputs[i].Length; j++)
             {
                 Debug.Log("Output " + j + ": " + outputs[i][j].type + " " + outputs[i][j].inputs.Length);
+            }
+        }
+    }
+
+    public void selectButton()
+    {
+        if (clickedButton[0] < 0 && clickedButton[1] < 0)
+        {
+            buttons[0].GetComponent<Button>().Select();
+        }
+        else if (clickedButton[0] == 0)
+        {
+            buttons[clickedButton[1]].GetComponent<Button>().Select();
+        }
+        else
+        {
+            int numberOfRows = 0;
+            numberOfRows += (rowOne[currentField].Length > 0) ? 1 : 0;
+            numberOfRows += (rowTwo[currentField].Length > 0) ? 1 : 0;
+            numberOfRows += (rowThree[currentField].Length > 0) ? 1 : 0;
+            int numberOfButtonsBefore = inputs[currentField].Length;
+            for (int i = 1; i < clickedButton[0]; i++)
+            {
+                switch (i)
+                {
+                    case 1:
+                        numberOfButtonsBefore += rowOne[currentField].Length;
+                        break;
+                    case 2:
+                        numberOfButtonsBefore += rowTwo[currentField].Length;
+                        break;
+                    case 3:
+                        numberOfButtonsBefore += rowThree[currentField].Length;
+                        break;
+                    default:
+                        Debug.Log("Error");
+                        break;
+                }
+            }
+            numberOfButtonsBefore += clickedButton[1];
+            buttons[numberOfButtonsBefore].GetComponent<Button>().Select();
+        }
+        clickedButton[0] = -1;
+        clickedButton[1] = -1;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown("joystick button 4"))
+        {
+            if (currentField > 0)
+            {
+                onClickChoose(currentField - 1);
+            }
+        }
+        if (Input.GetKeyDown("joystick button 5"))
+        {
+            if (currentField < chooseButtons.Length -1)
+            {
+                onClickChoose(currentField + 1);
             }
         }
     }

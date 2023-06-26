@@ -9,6 +9,7 @@ public class LogicPrompt : MonoBehaviour
     [SerializeField] private GameObject levelLogic;
     [SerializeField] private GameObject lines;
     [SerializeField] private GameObject pauseButton;
+    [SerializeField] private GameObject playButton;
 
     [SerializeField] private GameObject prompt;
     [SerializeField] private GameObject titel;
@@ -124,12 +125,14 @@ public class LogicPrompt : MonoBehaviour
 
     private void selectButton(int button)
     {
+        buttons[0].GetComponent<Button>().Select();
         for (int i = 0; i < buttons.Length; i++)
         {
             if (i == button)
             {
                 buttons[i].GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
                 buttons[i].GetComponentInChildren<TMPro.TextMeshProUGUI>().color = new Color(1f, 1f, 1f);
+                buttons[i].GetComponent<Button>().Select();
             }
             else
             {
@@ -146,6 +149,7 @@ public class LogicPrompt : MonoBehaviour
     private void activatePrompt()
     {
         pauseButton.GetComponent<PauseLevel>().setPauseButtonActive(false);
+        playButton.GetComponent<Play>().setPlayButtonActive(false);
         isActive = true;
         lines.SetActive(false);
         prompt.SetActive(true);
@@ -159,7 +163,8 @@ public class LogicPrompt : MonoBehaviour
         }
         prompt.SetActive(false);
         lines.SetActive(true);
-        StartCoroutine(reacticatePauseButton());
+        levelLogic.GetComponent<LevelLogic>().selectButton();
+        StartCoroutine(reactivateButtons());
     }
 
     private void setInputText(string type, string spec1, string spec2, string spec3)
@@ -292,15 +297,16 @@ public class LogicPrompt : MonoBehaviour
     {
         if (isActive)
         {
-            if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown("joystick button 1"))
             {
                 onCLickDone();
             }
         }
     }
-    private IEnumerator reacticatePauseButton()
+    private IEnumerator reactivateButtons()
     {
         yield return null;
         pauseButton.GetComponent<PauseLevel>().setPauseButtonActive(true);
+        playButton.GetComponent<Play>().setPlayButtonActive(true);
     }
 }

@@ -18,12 +18,18 @@ public class Play : MonoBehaviour
     [SerializeField] private GameObject lines;
     [SerializeField] private GameObject pauseButton;
 
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject wonMenuButton;
+
     private bool isPlay = false;
     private bool isPause = false;
     private bool isWon = false;
     private int wonPlayers;
 
     private float time;
+
+    private bool playButtonActive = true;
+    private bool pauseButtonActive;
 
     public void onClickPlay()
     {
@@ -34,14 +40,17 @@ public class Play : MonoBehaviour
         if (!isPlay)
         {
             pauseButton.GetComponent<Button>().interactable = true;
+            pauseButtonActive = true;
             disableLogic.SetActive(true);
             isPlay = true;
             playButton.GetComponentInChildren<TextMeshProUGUI>().text = "Stop";
+            playButton.GetComponent<Button>().Select();
             StartCoroutine(play());
         }
         else
         {
             pauseButton.GetComponent<Button>().interactable = false;
+            pauseButtonActive = false;
             pauseButton.GetComponentInChildren<TextMeshProUGUI>().text = "Pause";
             isPause = false;
             GetComponent<Button>().interactable = false;
@@ -135,6 +144,8 @@ public class Play : MonoBehaviour
             }
             if (isWon)
             {
+                if (pauseMenu.GetComponent<PauseLevel>().getPauseMenuActive())
+                    pauseMenu.GetComponent<PauseLevel>().onClickContinue();
                 lines.SetActive(false);
                 if (LevelName.getStoryMode())
                 {
@@ -142,7 +153,10 @@ public class Play : MonoBehaviour
                     Instantiate(playLevel.GetComponent<PlayLevel>().getPostScreen(level), screenHolder.transform);
                 }
                 else
+                {
                     won.SetActive(true);
+                    wonMenuButton.GetComponent<Button>().Select();
+                }
             }
             while (isPause)
             {
@@ -155,6 +169,8 @@ public class Play : MonoBehaviour
         gameLogic.GetComponent<Inputs>().resetMemory();
         GetComponent<Button>().interactable = true;
         disableLogic.SetActive(false);
+        if (!isWon)
+            levelLogic.GetComponent<LevelLogic>().selectButton();
     }
 
     public void wonPlayer()
@@ -163,8 +179,9 @@ public class Play : MonoBehaviour
         if (wonPlayers == 0)
         {
             isWon = true;
+            onClickPlay();
+            pauseMenu.GetComponent<PauseLevel>().setPauseButtonActive(false);
         }
-        onClickPlay();
     }
     public bool getIsPlay()
     {
@@ -175,16 +192,32 @@ public class Play : MonoBehaviour
     {
         won.SetActive(false);
         lines.SetActive(true);
+        pauseMenu.GetComponent<PauseLevel>().setPauseButtonActive(true);
+        levelLogic.GetComponent<LevelLogic>().selectButton();
     }
     public void setTime(float time)
     {
         this.time = time;
     }
 
+    public void setPlayButtonActive(bool active)
+    {
+        playButtonActive = active;
+    }
+    public void setPauseButtonActive(bool active)
+    {
+        pauseButtonActive = active;
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown("joystick button 2") && playButtonActive)
         {
+            onClickPlay();
+        }
+        if (Input.GetKeyDown("joystick button 3") && pauseButtonActive)
+        {
+            onCLickPause();
         }
     }
 }

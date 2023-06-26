@@ -17,14 +17,14 @@ public class PlayLevel : MonoBehaviour
         {
             levelName = LevelName.getLevelName();
             StoryData story = SaveSystem.getStory(levelName);
-            if (story != null)
-            {
-                levelName = StorySettings.getLevel(story.Level);
-            }
-            else
+            if (story == null)
             {
                 Debug.Log("Story " + levelName + " does not exist");
                 return;
+            }
+            else
+            {
+                levelName = StorySettings.getLevel(story.Level);
             }
             if (!SaveSystem.existsStoryLevel(levelName))
             {
@@ -33,11 +33,9 @@ public class PlayLevel : MonoBehaviour
             }
             else
             {
-                Debug.Log("Storylevel " + levelName + " exists");
                 int[] screens = StorySettings.getScreenNumbers(story.Level);
                 if (screens[0] >= 0 && screens[0] < preAndPostScreens.Length)
                 {
-                    Debug.Log("Screen " + screens[0] + " exists");
                     Instantiate(preAndPostScreens[screens[0]], screenHolder.transform);
                 }
             }

@@ -8,6 +8,7 @@ public class LogicPrompt : MonoBehaviour
 {
     [SerializeField] private GameObject levelLogic;
     [SerializeField] private GameObject lines;
+    [SerializeField] private GameObject pauseButton;
 
     [SerializeField] private GameObject prompt;
     [SerializeField] private GameObject titel;
@@ -17,6 +18,8 @@ public class LogicPrompt : MonoBehaviour
     private string type;
     private LogicGate logic;
     private int[] activeButtons;
+
+    private bool isActive = false;
 
     private void Start()
     {
@@ -142,17 +145,21 @@ public class LogicPrompt : MonoBehaviour
     }
     private void activatePrompt()
     {
+        pauseButton.GetComponent<PauseLevel>().setPauseButtonActive(false);
+        isActive = true;
         lines.SetActive(false);
         prompt.SetActive(true);
     }
     public void onCLickDone()
     {         
+        isActive = false;
         if (type == "logic")
         {
             levelLogic.GetComponent<LevelLogic>().setLogic(logic);
         }
         prompt.SetActive(false);
         lines.SetActive(true);
+        StartCoroutine(reacticatePauseButton());
     }
 
     private void setInputText(string type, string spec1, string spec2, string spec3)
@@ -279,5 +286,21 @@ public class LogicPrompt : MonoBehaviour
                 break;
         }
         return text;
+    }
+
+    private void Update()
+    {
+        if (isActive)
+        {
+            if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.Escape))
+            {
+                onCLickDone();
+            }
+        }
+    }
+    private IEnumerator reacticatePauseButton()
+    {
+        yield return null;
+        pauseButton.GetComponent<PauseLevel>().setPauseButtonActive(true);
     }
 }

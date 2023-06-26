@@ -180,4 +180,11 @@ public class Play : MonoBehaviour
     {
         this.time = time;
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+        }
+    }
 }

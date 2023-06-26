@@ -13,6 +13,7 @@ public class Buttons : MonoBehaviour
     [SerializeField] protected GameObject upButton;
     [SerializeField] protected GameObject downButton;
     protected int currentScrollAmount;
+    protected bool isActive;
     public void onClickBack()
     {
         disableButtons();
@@ -27,6 +28,7 @@ public class Buttons : MonoBehaviour
     }
     protected void disableButtons()
     {
+        isActive = false;
         foreach (GameObject button in buttons)
         {
             button.SetActive(false);
@@ -43,6 +45,7 @@ public class Buttons : MonoBehaviour
     }
     public void enableButtons()
     {
+        isActive = true;
         for (int i = 0; i < buttons.Length; i++)
         {
             if (i >= (4 * currentScrollAmount) && i < (4 * (currentScrollAmount + 1)))
@@ -95,9 +98,13 @@ public class Buttons : MonoBehaviour
     }
     public void resetButtons()
     {
+        if (buttons == null)
+            return;
         for (int i = 0; i < buttons.Length; i++)
         {
-            buttons[i].GetComponent<SelectButton>().setPosition(i);
+            SelectButton button = buttons[i].GetComponent<SelectButton>();
+            if (button != null)
+                button.setPosition(i);
         }
     }
     public void onClickDown()
@@ -154,6 +161,18 @@ public class Buttons : MonoBehaviour
         {
             RectTransform rectTransform = buttons[i].GetComponent<RectTransform>();
             rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y + 200);
+        }
+    }
+
+    private void Update()
+    {
+        if (isActive)
+        {
+            // Call onClickBack() when pressing back button
+            if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.Escape))
+            {
+                onClickBack();
+            }
         }
     }
 }

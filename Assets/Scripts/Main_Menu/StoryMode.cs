@@ -10,6 +10,7 @@ public class StoryMode : Buttons
     [SerializeField] private GameObject areYouSure;
     [SerializeField] private GameObject newGamePrompt;
     [SerializeField] private GameObject inputField;
+    [SerializeField] private GameObject newGameButton;
     private void Start()
     {
         string[] saveGames = SaveSystem.getAllStoryNames();
@@ -28,6 +29,7 @@ public class StoryMode : Buttons
     {
         disableButtons();
         newGamePrompt.SetActive(true);
+        inputField.GetComponent<TMP_InputField>().Select();
     }
     public void loadGame(string saveName)
     {
@@ -45,6 +47,7 @@ public class StoryMode : Buttons
         newGamePrompt.SetActive(false);
         inputField.GetComponent<TMP_InputField>().text = string.Empty;
         enableButtons();
+        StartCoroutine(SelectFirstButtonDelayed());
     }
     public void onClickNewGame()
     {
@@ -57,5 +60,10 @@ public class StoryMode : Buttons
         SaveSystem.saveStory(new StoryData(name, 0));
         yield return null;
         loadGame(name);
+    }
+
+    public void inputEnd()
+    {
+        newGameButton.GetComponent<Button>().Select();
     }
 }

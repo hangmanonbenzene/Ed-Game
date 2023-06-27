@@ -31,6 +31,12 @@ public class PauseLevel : MonoBehaviour
             levelLogic.GetComponent<LevelLogic>().setChooseButtonsActive(false);
             continueButton.GetComponent<Button>().Select();
             GetComponent<TimePerTick>().disableTimeOnScreen();
+            if (play.GetComponent<Play>().getIsPlay() && !play.GetComponent<Play>().getIsPause())
+            {
+                play.GetComponent<Play>().onCLickPause();
+            }
+            play.GetComponent<Play>().setPlayButtonActive(false);
+            play.GetComponent<Play>().setPauseButtonActive(false);
         }
     }
 
@@ -44,6 +50,8 @@ public class PauseLevel : MonoBehaviour
             levelLogic.GetComponent<LevelLogic>().selectButton();
             levelLogic.GetComponent<LevelLogic>().setChooseButtonsActive(true);
         }
+        play.GetComponent<Play>().setPlayButtonActive(true);
+        play.GetComponent<Play>().setPauseButtonActive(true);
     }
     public void onClickLevelEditor()
     {

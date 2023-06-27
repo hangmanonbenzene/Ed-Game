@@ -21,6 +21,7 @@ public class Play : MonoBehaviour
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject start;
     [SerializeField] private GameObject wonMenuButton;
+    [SerializeField] private GameObject emptyButton;
 
     private bool isPlay = false;
     private bool isPause = false;
@@ -45,7 +46,7 @@ public class Play : MonoBehaviour
             disableLogic.SetActive(true);
             isPlay = true;
             playButton.GetComponentInChildren<TextMeshProUGUI>().text = "Stop";
-            playButton.GetComponent<Button>().Select();
+            emptyButton.GetComponent<Button>().Select();
             StartCoroutine(play());
         }
         else
@@ -188,6 +189,10 @@ public class Play : MonoBehaviour
     public bool getIsPlay()
     {
         return isPlay;
+    }
+    public bool getIsPause()
+    {
+        return isPause;
     }
 
     public void onClickBackToLevel()

@@ -164,12 +164,11 @@ public class Buttons : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected void Update()
     {
         if (isActive)
         {
-            // Call onClickBack() when pressing back button
-            if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown("joystick button 1"))
             {
                 onClickBack();
             }

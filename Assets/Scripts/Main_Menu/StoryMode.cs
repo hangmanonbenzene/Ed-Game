@@ -11,6 +11,9 @@ public class StoryMode : Buttons
     [SerializeField] private GameObject newGamePrompt;
     [SerializeField] private GameObject inputField;
     [SerializeField] private GameObject newGameButton;
+
+    private bool promptActive;
+
     private void Start()
     {
         string[] saveGames = SaveSystem.getAllStoryNames();
@@ -29,6 +32,7 @@ public class StoryMode : Buttons
     {
         disableButtons();
         newGamePrompt.SetActive(true);
+        promptActive = true;
         inputField.GetComponent<TMP_InputField>().Select();
     }
     public void loadGame(string saveName)
@@ -47,6 +51,7 @@ public class StoryMode : Buttons
         newGamePrompt.SetActive(false);
         inputField.GetComponent<TMP_InputField>().text = string.Empty;
         enableButtons();
+        promptActive = false;
         StartCoroutine(SelectFirstButtonDelayed());
     }
     public void onClickNewGame()
@@ -65,5 +70,14 @@ public class StoryMode : Buttons
     public void inputEnd()
     {
         newGameButton.GetComponent<Button>().Select();
+    }
+
+    private void Update()
+    {
+        base.Update();
+        if (promptActive && Input.GetKeyDown("joystick button 0"))
+            onClickNewGame();
+        if (promptActive && Input.GetKeyDown("joystick button 1"))
+            onClickCancel();
     }
 }

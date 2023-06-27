@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PostScreens : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PostScreens : MonoBehaviour
         {
             currentScreen = 0;
             currentScreenObject = Instantiate(screens[currentScreen], screenHolder.transform);
+            gameObject.GetComponentInChildren<Button>().Select();
         }
         else
         {

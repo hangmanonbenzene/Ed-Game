@@ -10,6 +10,7 @@ public class LogicPrompt : MonoBehaviour
     [SerializeField] private GameObject lines;
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject playButton;
+    [SerializeField] private GameObject start;
 
     [SerializeField] private GameObject prompt;
     [SerializeField] private GameObject titel;
@@ -18,7 +19,7 @@ public class LogicPrompt : MonoBehaviour
 
     private string type;
     private LogicGate logic;
-    private int[] activeButtons;
+    private int[] activeButtons = new int[0];
 
     private bool isActive = false;
 
@@ -49,7 +50,7 @@ public class LogicPrompt : MonoBehaviour
         this.logic = logic;
         titel.GetComponent<TMPro.TextMeshProUGUI>().text = "Logik-Gatter";
         setLogicText(logic.type);
-        activeButtons = multipleInputs ? new int[] { 0, 1, 2, 3, 5, 6, 7 } : new int[] { 0, 4 };
+        activeButtons = multipleInputs ? new int[] { 1, 2, 3, 5, 6, 7 } : new int[] { 0, 4 };
         buttons[0].GetComponent<Button>().interactable = !multipleInputs;
         buttons[0].GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "";
         buttons[1].GetComponent<Button>().interactable = multipleInputs;
@@ -125,7 +126,8 @@ public class LogicPrompt : MonoBehaviour
 
     private void selectButton(int button)
     {
-        buttons[0].GetComponent<Button>().Select();
+        int number = activeButtons.Length > 0 ? activeButtons[0] : 0;
+        buttons[number].GetComponent<Button>().Select();
         for (int i = 0; i < buttons.Length; i++)
         {
             if (i == button)
@@ -148,8 +150,7 @@ public class LogicPrompt : MonoBehaviour
     }
     private void activatePrompt()
     {
-        pauseButton.GetComponent<PauseLevel>().setPauseButtonActive(false);
-        playButton.GetComponent<Play>().setPlayButtonActive(false);
+        start.GetComponent<PlayLevel>().disableButtons();
         isActive = true;
         lines.SetActive(false);
         prompt.SetActive(true);
@@ -306,7 +307,6 @@ public class LogicPrompt : MonoBehaviour
     private IEnumerator reactivateButtons()
     {
         yield return null;
-        pauseButton.GetComponent<PauseLevel>().setPauseButtonActive(true);
-        playButton.GetComponent<Play>().setPlayButtonActive(true);
+        start.GetComponent<PlayLevel>().enableButtons();
     }
 }

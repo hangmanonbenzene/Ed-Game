@@ -32,7 +32,10 @@ public class LevelLogic : MonoBehaviour
     private bool[][][] permanentGates;
     private int[] restrictedGates;
 
-    int[] clickedButton;
+    int[] clickedButton = new int[] { -1, -1 };
+    [SerializeField] private GameObject play;
+    [SerializeField] private GameObject pause;
+    private bool chooseButtonActive;
 
     private readonly int maxXCoordinate = 300;
     private readonly int minXCoordinate = -300;
@@ -140,7 +143,8 @@ public class LevelLogic : MonoBehaviour
         selectChooseButton(number);
         setField(number);
         clickedButton = new int[] { -1, -1 };
-        selectButton();
+        if (!pause.GetComponent<PauseLevel>().getPauseMenuActive() && !play.GetComponent<Play>().getIsPlay())
+            selectButton();
     }
     private void onClickButton(int row, int number)
     {
@@ -734,6 +738,8 @@ public class LevelLogic : MonoBehaviour
 
     public void selectButton()
     {
+        if (buttons == null || buttons.Length == 0)
+            return;
         if (clickedButton[0] < 0 && clickedButton[1] < 0)
         {
             buttons[0].GetComponent<Button>().Select();
@@ -773,21 +779,28 @@ public class LevelLogic : MonoBehaviour
         clickedButton[0] = -1;
         clickedButton[1] = -1;
     }
+    public void setChooseButtonsActive(bool active)
+    {
+        chooseButtonActive = active;
+    }
 
     private void Update()
     {
-        if (Input.GetKeyDown("joystick button 4"))
+        if (!play.GetComponent<Play>().getIsPlay() && chooseButtonActive)
         {
-            if (currentField > 0)
+            if (Input.GetKeyDown("joystick button 4"))
             {
-                onClickChoose(currentField - 1);
+                if (currentField > 0)
+                {
+                    onClickChoose(currentField - 1);
+                }
             }
-        }
-        if (Input.GetKeyDown("joystick button 5"))
-        {
-            if (currentField < chooseButtons.Length -1)
+            if (Input.GetKeyDown("joystick button 5"))
             {
-                onClickChoose(currentField + 1);
+                if (currentField < chooseButtons.Length - 1)
+                {
+                    onClickChoose(currentField + 1);
+                }
             }
         }
     }

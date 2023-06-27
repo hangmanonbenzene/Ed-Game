@@ -11,27 +11,39 @@ public class PauseLevel : MonoBehaviour
     [SerializeField] private GameObject lines;
     [SerializeField] private GameObject levelEditorButton;
     [SerializeField] private GameObject continueButton;
+    [SerializeField] private GameObject play;
 
     private bool pauseButtonActive = true;
     private bool pauseMenuActive = false;
 
     public void onClickPause()
     {
-        setPauseButtonActive(false);
-        pauseMenuActive = true;
-        levelEditorButton.GetComponent<Button>().interactable = LevelName.getStoryMode() ? false : true;
-        pauseMenu.SetActive(true);
-        lines.SetActive(false);
-        continueButton.GetComponent<Button>().Select();
+        if (pauseMenuActive)
+        {
+            onClickContinue();
+        }
+        else
+        {
+            pauseMenuActive = true;
+            levelEditorButton.GetComponent<Button>().interactable = LevelName.getStoryMode() ? false : true;
+            pauseMenu.SetActive(true);
+            lines.SetActive(false);
+            levelLogic.GetComponent<LevelLogic>().setChooseButtonsActive(false);
+            continueButton.GetComponent<Button>().Select();
+            GetComponent<TimePerTick>().disableTimeOnScreen();
+        }
     }
 
     public void onClickContinue()
     {
-        setPauseButtonActive(true);
         pauseMenuActive = false;
         pauseMenu.SetActive(false);
         lines.SetActive(true);
-        levelLogic.GetComponent<LevelLogic>().selectButton();
+        if (!play.GetComponent<Play>().getIsPlay())
+        {
+            levelLogic.GetComponent<LevelLogic>().selectButton();
+            levelLogic.GetComponent<LevelLogic>().setChooseButtonsActive(true);
+        }
     }
     public void onClickLevelEditor()
     {

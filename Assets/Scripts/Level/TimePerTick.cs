@@ -7,11 +7,13 @@ public class TimePerTick : MonoBehaviour
 {
     [SerializeField] private GameObject play;
     [SerializeField] private GameObject showValue;
+    [SerializeField] private GameObject timeOnScreen;
+
     private float time = 0.5f;
 
     private bool plus = true;
     private bool minus = true;
-    private float resetTime = 0.25f;
+    private float resetTime;
 
     void Start()
     {
@@ -46,6 +48,10 @@ public class TimePerTick : MonoBehaviour
         play.GetComponent<Play>().setTime(time);
         valueChangeTo(time);
     }
+    public void disableTimeOnScreen()
+    {
+        timeOnScreen.SetActive(false);
+    }
 
     private void valueChangeTo(float value)
     {
@@ -54,19 +60,31 @@ public class TimePerTick : MonoBehaviour
 
     private void Update()
     {
+        resetTime = Mathf.Clamp(resetTime - Time.deltaTime, 0.0f, 1.0f);
         if (Input.GetAxis("test") > 0.5f && plus)
         {
             plus = false;
             onClickPlus();
+            if (!GetComponent<PauseLevel>().getPauseMenuActive())
+            {
+                timeOnScreen.GetComponentInChildren<TextMeshProUGUI>().text = time.ToString("0.0");
+                timeOnScreen.SetActive(true);
+            }
+            resetTime = 0.25f;
         }
         if (Input.GetAxis("test") < -0.5f && minus)
         {
             minus = false;
             onClickMinus();
+            if (!GetComponent<PauseLevel>().getPauseMenuActive())
+            {
+                timeOnScreen.GetComponentInChildren<TextMeshProUGUI>().text = time.ToString("0.0");
+                timeOnScreen.SetActive(true);
+            }
+            resetTime = 0.25f;
         }
         if (!plus)
         {
-            resetTime -= Time.deltaTime;
             if (resetTime <= 0.0f)
             {
                 plus = true;
@@ -75,7 +93,6 @@ public class TimePerTick : MonoBehaviour
         }
         if (!minus)
         {
-            resetTime -= Time.deltaTime;
             if (resetTime <= 0.0f)
             {
                 minus = true;
@@ -86,7 +103,10 @@ public class TimePerTick : MonoBehaviour
         {
             plus = true;
             minus = true;
-            resetTime = 0.25f;
+        }
+        if (resetTime <= 0.0f)
+        {
+            timeOnScreen.SetActive(false);
         }
     }
 }

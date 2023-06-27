@@ -19,6 +19,7 @@ public class Play : MonoBehaviour
     [SerializeField] private GameObject pauseButton;
 
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject start;
     [SerializeField] private GameObject wonMenuButton;
 
     private bool isPlay = false;
@@ -28,7 +29,7 @@ public class Play : MonoBehaviour
 
     private float time;
 
-    private bool playButtonActive = true;
+    private bool playButtonActive;
     private bool pauseButtonActive;
 
     public void onClickPlay()
@@ -144,6 +145,7 @@ public class Play : MonoBehaviour
             }
             if (isWon)
             {
+                start.GetComponent<PlayLevel>().disableButtons();
                 if (pauseMenu.GetComponent<PauseLevel>().getPauseMenuActive())
                     pauseMenu.GetComponent<PauseLevel>().onClickContinue();
                 lines.SetActive(false);
@@ -169,7 +171,7 @@ public class Play : MonoBehaviour
         gameLogic.GetComponent<Inputs>().resetMemory();
         GetComponent<Button>().interactable = true;
         disableLogic.SetActive(false);
-        if (!isWon)
+        if (!isWon && !pauseMenu.GetComponent<PauseLevel>().getPauseMenuActive())
             levelLogic.GetComponent<LevelLogic>().selectButton();
     }
 
@@ -192,7 +194,7 @@ public class Play : MonoBehaviour
     {
         won.SetActive(false);
         lines.SetActive(true);
-        pauseMenu.GetComponent<PauseLevel>().setPauseButtonActive(true);
+        start.GetComponent<PlayLevel>().enableButtons();
         levelLogic.GetComponent<LevelLogic>().selectButton();
     }
     public void setTime(float time)

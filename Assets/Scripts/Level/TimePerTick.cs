@@ -9,7 +9,7 @@ public class TimePerTick : MonoBehaviour
     [SerializeField] private GameObject showValue;
     [SerializeField] private GameObject timeOnScreen;
 
-    private float time = 0.5f;
+    private float time = 1.0f;
 
     private bool plus = true;
     private bool minus = true;

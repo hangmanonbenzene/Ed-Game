@@ -45,7 +45,6 @@ public class PlayLevel : MonoBehaviour
                 if (screens[0] >= 0 && screens[0] < preAndPostScreens.Length)
                 {
                     disableButtons();
-                    linesActive(false);
                     Instantiate(preAndPostScreens[screens[0]], screenHolder.transform);
                 }
             }

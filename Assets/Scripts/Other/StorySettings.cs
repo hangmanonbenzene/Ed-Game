@@ -6,13 +6,27 @@ public static class StorySettings
 {
     private static string[] levels = new string[] 
     { 
-        "test1",
-        "test2"
+        "Level 1",
+        "Level 2",
+        "Level 3",
+        "Level 4",
+        "Level 5",
+        "Level 6",
+        "Level 10",
+        "Level 11",
+        "Level 12"
     };
     private static int[][] screensPerLevel = new int[][]
     {
-        new int[] { 0, 1 },
-        new int[] { 0, 2 }
+        new int[] { 3, 2 },
+        new int[] { 1, 2 },
+        new int[] { 1, 2 },
+        new int[] { 1, 2 },
+        new int[] { 1, 2 },
+        new int[] { 1, 2 },
+        new int[] { 1, 2 },
+        new int[] { 1, 2 },
+        new int[] { 1, 0 }
     };
     public static string getLevel(int index)
     {

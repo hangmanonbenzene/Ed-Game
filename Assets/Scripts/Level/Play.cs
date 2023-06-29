@@ -149,7 +149,6 @@ public class Play : MonoBehaviour
                 start.GetComponent<PlayLevel>().disableButtons();
                 if (pauseMenu.GetComponent<PauseLevel>().getPauseMenuActive())
                     pauseMenu.GetComponent<PauseLevel>().onClickContinue();
-                lines.SetActive(false);
                 if (LevelName.getStoryMode())
                 {
                     int level = StorySettings.getScreenNumbers(SaveSystem.getStory(LevelName.getLevelName()).Level)[1];
@@ -157,6 +156,7 @@ public class Play : MonoBehaviour
                 }
                 else
                 {
+                    lines.SetActive(false);
                     won.SetActive(true);
                     wonMenuButton.GetComponent<Button>().Select();
                 }
@@ -173,7 +173,10 @@ public class Play : MonoBehaviour
         GetComponent<Button>().interactable = true;
         disableLogic.SetActive(false);
         if (!isWon && !pauseMenu.GetComponent<PauseLevel>().getPauseMenuActive())
+        {
             levelLogic.GetComponent<LevelLogic>().selectButton();
+            levelLogic.GetComponent<LevelLogic>().setChooseButtonsActive(true);
+        }
     }
 
     public void wonPlayer()

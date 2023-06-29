@@ -54,6 +54,7 @@ MonoBehaviour:
   - {fileID: 7743646331338628749, guid: 3a292451f24209c409ec949a97484f2d, type: 3}
   goal:
   - {fileID: 7743646331338628749, guid: 970becf74ed3e2149b38fd2e06110885, type: 3}
+  - {fileID: 2829668668661336700, guid: 6e754637ea7f2bd47b0f3df4b094ff42, type: 3}
   wall:
   - {fileID: 4355187621625456901, guid: 1ba3fec022b8ec14b95fa03e9f779b50, type: 3}
   - {fileID: 4355187621625456901, guid: 1ba3fec022b8ec14b95fa03e9f779b50, type: 3}

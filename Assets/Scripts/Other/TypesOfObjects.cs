@@ -12,13 +12,13 @@ public static class TypesOfObjects
         "wall",
         "hole",
         "switch",
-        "mummy",
+        "mummy"
     };
     private static string[][] specifications = new string[][]
     {
         new string[]{ "", "toWall" },
         new string[]{ "up", "right", "down", "left" },
-        new string[]{ "" },
+        new string[]{ "", "statue" },
         new string[]{ "", "fake", "trigger", "toEmpty", "toGoal", "toFake" },
         new string[]{ "" },
         new string[]{ "" },
@@ -28,7 +28,7 @@ public static class TypesOfObjects
     {
         new string[]{ "", "eX" },
         new string[]{ "/\\", ">", "\\/", "<" },
-        new string[]{ "$" },
+        new string[]{ "$", "%" },
         new string[]{ "X", "F", "FT", "xE", "xG", "xF" },
         new string[]{ "O" },
         new string[]{ "_" },

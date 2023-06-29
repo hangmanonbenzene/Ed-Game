@@ -72,7 +72,7 @@ public class StoryMode : Buttons
         newGameButton.GetComponent<Button>().Select();
     }
 
-    private void Update()
+    private new void Update()
     {
         base.Update();
         if (promptActive && Input.GetKeyDown("joystick button 0"))

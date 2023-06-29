@@ -43,7 +43,7 @@ public static class TypesOfInputs
     {
         new string[] { "" },
         new string[] { "" },
-        new string[] { "N", "S", "Z", "W", "L", "D", "M" },
+        new string[] { "F", "S", "Z", "W", "L", "D", "M" },
         new string[] { "" }
     };
     private static string[][] symbolThree = new string[][]
@@ -63,8 +63,8 @@ public static class TypesOfInputs
         int specificationIndexTwo = System.Array.IndexOf(specificationsTwo[typeIndex], specificationTwo);
         int specificationIndexThree = System.Array.IndexOf(specificationsThree[typeIndex], specificationThree);
         return symbolOne[typeIndex][specificationIndexOne] + 
-               symbolTwo[typeIndex][specificationIndexTwo] + 
-               symbolThree[typeIndex][specificationIndexThree];
+               symbolThree[typeIndex][specificationIndexThree] +
+               symbolTwo[typeIndex][specificationIndexTwo];
     }
     public static string getSymbolForType(string type, int specification, int number)
     {

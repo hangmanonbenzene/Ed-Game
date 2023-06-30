@@ -104,18 +104,24 @@ public class Play : MonoBehaviour
                 gameLogic.GetComponent<Outputs>().use(
                     new int[,] { { player[currentPlayer, 0], player[currentPlayer, 1], player[currentPlayer, 2] } }, 
                     currentPosition, currentField);
-
-                int[,] mummies = field.GetComponent<LevelField>().getAll("mummy");
-                for (int i = 0; i < mummies.GetLength(0); i++)
+                if (!isWon)
                 {
-                    for (float j = 0; j < time; j += Time.deltaTime)
+                    int[,] mummies = field.GetComponent<LevelField>().getAll("mummy");
+                    for (int i = 0; i < mummies.GetLength(0); i++)
                     {
-                        if (isPlay || isWon)
+                        for (float j = 0; j < time; j += Time.deltaTime)
+                        {
+                            if (isPlay || isWon)
+                                yield return null;
+                            else
+                                break;
+                        }
+                        while (isPause)
+                        {
                             yield return null;
-                        else
-                            break;
+                        }
+                        gameLogic.GetComponent<Outputs>().walkMummy(new int[,] { { mummies[i, 0], mummies[i, 1], mummies[i, 2] } });
                     }
-                    gameLogic.GetComponent<Outputs>().walkMummy(new int[,] { { mummies[i, 0], mummies[i, 1], mummies[i, 2] } });
                 }
 
                 if (currentPlayer == players - 1)
@@ -155,7 +161,7 @@ public class Play : MonoBehaviour
             }
             if (isWon)
             {
-                start.GetComponent<PlayLevel>().disableButtons();
+                onCLickPause();
                 if (pauseMenu.GetComponent<PauseLevel>().getPauseMenuActive())
                     pauseMenu.GetComponent<PauseLevel>().onClickContinue();
                 if (LevelName.getStoryMode())
@@ -181,7 +187,7 @@ public class Play : MonoBehaviour
         gameLogic.GetComponent<Inputs>().resetMemory();
         GetComponent<Button>().interactable = true;
         disableLogic.SetActive(false);
-        if (!isWon && !pauseMenu.GetComponent<PauseLevel>().getPauseMenuActive())
+        if (!isWon)
         {
             levelLogic.GetComponent<LevelLogic>().selectButton();
             levelLogic.GetComponent<LevelLogic>().setChooseButtonsActive(true);
@@ -194,8 +200,8 @@ public class Play : MonoBehaviour
         if (wonPlayers == 0)
         {
             isWon = true;
-            onClickPlay();
             pauseMenu.GetComponent<PauseLevel>().setPauseButtonActive(false);
+            start.GetComponent<PlayLevel>().disableButtons();
         }
     }
     public bool getIsPlay()
@@ -209,6 +215,7 @@ public class Play : MonoBehaviour
 
     public void onClickBackToLevel()
     {
+        onClickPlay();
         won.SetActive(false);
         lines.SetActive(true);
         start.GetComponent<PlayLevel>().enableButtons();

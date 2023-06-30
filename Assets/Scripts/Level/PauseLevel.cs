@@ -50,8 +50,9 @@ public class PauseLevel : MonoBehaviour
             levelLogic.GetComponent<LevelLogic>().selectButton();
             levelLogic.GetComponent<LevelLogic>().setChooseButtonsActive(true);
         }
+        else
+            play.GetComponent<Play>().setPauseButtonActive(true);
         play.GetComponent<Play>().setPlayButtonActive(true);
-        play.GetComponent<Play>().setPauseButtonActive(true);
     }
     public void onClickLevelEditor()
     {
@@ -76,7 +77,7 @@ public class PauseLevel : MonoBehaviour
     {
         if (pauseButtonActive)
         {
-            if (Input.GetKeyDown("joystick button 1"))
+            if (Input.GetKeyDown("joystick button 7"))
             {
                 onClickPause();
             }

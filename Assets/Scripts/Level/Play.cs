@@ -107,7 +107,16 @@ public class Play : MonoBehaviour
 
                 int[,] mummies = field.GetComponent<LevelField>().getAll("mummy");
                 for (int i = 0; i < mummies.GetLength(0); i++)
+                {
+                    for (float j = 0; j < time; j += Time.deltaTime)
+                    {
+                        if (isPlay || isWon)
+                            yield return null;
+                        else
+                            break;
+                    }
                     gameLogic.GetComponent<Outputs>().walkMummy(new int[,] { { mummies[i, 0], mummies[i, 1], mummies[i, 2] } });
+                }
 
                 if (currentPlayer == players - 1)
                 {

@@ -262,7 +262,7 @@ public class LogicPrompt : MonoBehaviour
                 };
                 text[1] = spec2 switch
                 {
-                    "empty" => "ein leeres <color=#0000FF>Feld</color>",
+                    "empty" => "ein <color=#0000FF>freies Feld</color>",
                     "wall" => "eine <color=#0000FF>Wand</color>",
                     "player" => "einen <color=#0000FF>Spieler</color>",
                     "goal" => "ein <color=#0000FF>Ziel</color>",

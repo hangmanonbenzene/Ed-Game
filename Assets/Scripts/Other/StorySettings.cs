@@ -6,15 +6,15 @@ public static class StorySettings
 {
     private static string[] levels = new string[] 
     { 
-        "Level 1",
-        "Level 2",
-        "Level 3",
-        "Level 4",
-        "Level 5",
-        "Level 6",
-        "Level 10",
-        "Level 11",
-        "Level 12"
+        "Level 01.0",
+        "Level 02.0",
+        "Level 03.0",
+        "Level 04.1",
+        "Level 05.0",
+        "Level 06.1",
+        "Level 07.0",
+        "Level 08.0",
+        "Level 09.0"
     };
     private static int[][] screensPerLevel = new int[][]
     {

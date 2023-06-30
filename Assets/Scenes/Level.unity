@@ -255,10 +255,6 @@ MonoBehaviour:
   - {fileID: 23509655613726031, guid: 6c96a710fc3c8c74186c54da8fdb0483, type: 3}
   - {fileID: 7798394261628072211, guid: 6ed85a46206056042bc35071163640d5, type: 3}
   - {fileID: 7772744942420551340, guid: aa453134f6eaf1d448ff939675ed33a4, type: 3}
-  - {fileID: 2072107519988151327, guid: 518e51dd4cbe1f74ca156db16a626e90, type: 3}
-  - {fileID: 7234598533760901525, guid: b6d34a3a86e253c49a14e1ce8abc01ab, type: 3}
-  - {fileID: 6033638528489215247, guid: e8f39416e6ddbe84986959f6a31cd7fd, type: 3}
-  - {fileID: 5713931643870962064, guid: bcaacc5e7d78ac640a6da63372e3866b, type: 3}
   screenHolder: {fileID: 841875642}
 --- !u!1 &26242733
 GameObject:
@@ -3790,7 +3786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
